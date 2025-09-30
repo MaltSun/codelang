@@ -1,0 +1,31 @@
+@import "../../ui/style.css";
+
+.pagination button {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  font-size: 16px;
+}
+.pagination button:hover {
+  transition: 0.4s ease;
+  color: grey;
+}
+.pagination button:active {
+  transition: 0.4s ease;
+  color: rgb(95, 95, 95);
+}
+
+.pagination span {
+  border-radius: 5px;
+  background-color: var(--accent-color);
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.pagination {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
