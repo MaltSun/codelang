@@ -1,0 +1,29 @@
+@import "../../ui/style.css";
+
+.header {
+  width: 100%;
+  padding: 10px 30px;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between !important;
+  background: var(--base-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+  text-transform: uppercase;
+  
+}
+
+.header img {
+  width: 40px;
+  height: 30px;
+}
+.header div {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+.logoBlock {
+  gap: 20px;
+}
