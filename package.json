@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.2",
+    "@mui/material": "^7.3.2",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
@@ -37,11 +41,10 @@
     ]
   },
   "devDependencies": {
-    "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.2",
     "@babel/core": "^7.23.2",
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.27.1",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@svgr/webpack": "^8.1.0",
     "@types/babel__core": "^7.20.3",
     "@types/node": "^20.8.3",
@@ -55,15 +58,16 @@
     "fork-ts-checker-webpack-plugin": "^9.0.0",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.6",
+    "react-refresh-typescript": "^2.0.9",
+    "react-router-dom": "^6.16.0",
     "sass": "^1.69.0",
     "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
     "ts-loader": "^9.5.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.9.2",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
-    "react-refresh-typescript": "^2.0.9",
-    "react-router-dom": "^6.16.0",
-    "webpack-bundle-analyzer": "^4.9.1"
+    "webpack-bundle-analyzer": "^4.9.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2"
   }
 }
