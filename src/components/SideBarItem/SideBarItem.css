@@ -1,0 +1,17 @@
+.sideBarItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+  height: 40px;
+  width: 100%;
+}
+.sideBarItem:hover,
+.sideBarItem.active {
+  background: rgba(76, 143, 224, 0.68);
+  transition: 0.4s ease;
+  border-radius: 3px;
+}
+.sideBarItem.active {
+  background: rgba(84, 147, 224, 0.68);
+}
