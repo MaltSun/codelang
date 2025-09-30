@@ -13,7 +13,7 @@
 }
 .defButton:hover {
   border: 1px solid rgb(120, 119, 119);
-  transform: 0.4s esey;
+  transform: 0.4s ease;
   background: rgb(245, 245, 245);
 }
 
