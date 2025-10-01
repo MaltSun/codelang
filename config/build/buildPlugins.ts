@@ -6,6 +6,7 @@ import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin"
 import ReactRefreshPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import path from "path";
 import CopyPlugin from 'copy-webpack-plugin'
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -20,13 +21,14 @@ export function buildPlugins({ mode, platform, paths, analyzer }: BuildOptions):
         }),
         new DefinePlugin({
             __PLATFORM__: JSON.stringify(platform)
+        }),
+        new MonacoWebpackPlugin({
+            languages: ['json']
         })
 
     ]
 
     if (isDev) {
-        // plugins.push(new webpack.ProgressPlugin())
-
         plugins.push(new ForkTsCheckerWebpackPlugin())
 
         plugins.push(new ReactRefreshPlugin())
@@ -40,8 +42,10 @@ export function buildPlugins({ mode, platform, paths, analyzer }: BuildOptions):
 
         plugins.push(new CopyPlugin({
             patterns: [
-                { from: path.resolve(paths.public, 'locales'),
-                     to: path.resolve(paths.output, 'locales') },
+                {
+                    from: path.resolve(paths.public, 'locales'),
+                    to: path.resolve(paths.output, 'locales')
+                },
             ],
         }))
     }
