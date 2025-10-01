@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import { HomePage } from "./pages/HomePage";
 import "./ui/style.css"
+import PostPage from "./pages/PostPage/PostPage";
 
 
 const root = document.getElementById("root");
@@ -17,8 +18,11 @@ const container = createRoot(root);
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
-    
+    element: <HomePage />,    
+  },
+   {
+    path: "/post",
+    element: <PostPage />,    
   },
 ]);
 
