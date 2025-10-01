@@ -10,35 +10,46 @@ const PostCardList: React.FC = () => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchPosts = useCallback(async (page: number) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const res = await api.get(`/api/snippets`, {
+        params: { page },
+      });
+
+      const { data, meta } = res.data.data;
+
+      if (Array.isArray(data)) {
+        setPosts(data);
+        setTotalPages(meta.totalPages);
+        setPosts(normalizePosts(data));
+      } else {
+        console.error("Unexpected API response format:", res.data);
+        setError("Invalid response format");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Error loading posts");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
-    setLoading(true);
-    api
-      .get(`/api/snippets`)
-      .then((res) => {
-        console.log("API response:", res.data);
+    fetchPosts(page);
+  }, [page, fetchPosts]);
 
-        if (Array.isArray(res.data.data.data)) {
-          setPosts(res.data.data.data);
-          setTotalPages(res.data.data.meta.totalPages);
-          const ROWS_PER_PAGE = res.data.data.meta.itemsPerPage;
-        } else {
-          console.error("Unexpected API response format:", res.data);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        setError("Error loading posts");
-      })
-      .finally(() => setLoading(false));
-  }, [page]);
-
-  const countLikesOrDislikes = (
-    post: any,
-    type: "like" | "dislike"
-  ): number => {
-    if (!post.marks) return 0;
-    return post.marks.filter((mark: any) => mark.type === type).length;
-  };
+  const normalizePosts = (posts: any[]) =>
+    posts.map((post) => ({
+      ...post,
+      likesNumber:
+        post.marks?.filter((m: any) => m.type === "like").length ?? 0,
+      dislikesNumber:
+        post.marks?.filter((m: any) => m.type === "dislike").length ?? 0,
+      commentsNumber: post.comments?.length ?? 0,
+    }));
 
   const handleNextPageClick = useCallback(() => {
     setPage((prev) => (prev < totalPages ? prev + 1 : prev));
@@ -70,9 +81,9 @@ const PostCardList: React.FC = () => {
             username={post.user?.username || "Unknown User"}
             language={post.language || "JavaScript"}
             code={post.code || "// write your code"}
-            commentsNumber={post.comments?.length || 0}
-            likesNumber={countLikesOrDislikes(post, "like")}
-            dislikesNumber={countLikesOrDislikes(post, "dislike")}
+            commentsNumber={post.commentsNumber}
+            likesNumber={post.likesNumber}
+            dislikesNumber={post.dislikesNumber}
           />
         ))
       ) : (
