@@ -33,27 +33,27 @@ const SideBar: React.FC<SideBar> = ({ activeItem }) => {
           icon={<HomeIcon></HomeIcon>}
         ></SideBarItem>
         <SideBarItem
-         active={addActive("account")}
+          active={addActive("account")}
           text={"My Account"}
           icon={<AccountBoxIcon></AccountBoxIcon>}
         ></SideBarItem>
         <SideBarItem
-         active={addActive("snippets")}
+          active={addActive("snippets")}
           text={"Post snippet"}
           icon={<SnippetFolderIcon></SnippetFolderIcon>}
         ></SideBarItem>
         <SideBarItem
-         active={addActive("mySnippets")}
+          active={addActive("mySnippets")}
           text={"My snippets"}
           icon={<SnippetFolderIcon></SnippetFolderIcon>}
         ></SideBarItem>
         <SideBarItem
-         active={addActive("questions")}
+          active={addActive("questions")}
           text={"Questions"}
           icon={<PsychologyAltIcon></PsychologyAltIcon>}
         ></SideBarItem>
         <SideBarItem
-         active={addActive("users")}
+          active={addActive("users")}
           text={"Users"}
           icon={<GroupIcon></GroupIcon>}
         ></SideBarItem>
