@@ -1,18 +1,21 @@
 import React from "react";
 import "./SideBarItem.css";
 
-interface SideBarItem {
+interface SideBarItemProps {
   text: string;
   icon: React.ReactNode;
+  active?: boolean;
 }
 
-const SideBarIte: React.FC<SideBarItem> = ({ text, icon }) => {
+const SideBarItem: React.FC<SideBarItemProps> = ({ text, icon, active = false }) => {
+  const className = `sideBarItem ${active ? "active" : ""}`.trim();
+
   return (
-    <div className="sideBarItem">
+    <div className={className}>
       {icon}
       <span>{text}</span>
     </div>
   );
 };
 
-export default SideBarIte;
+export default SideBarItem;
