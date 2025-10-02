@@ -1,0 +1,64 @@
+@import "../../ui/style.css";
+
+.regForm {
+  width: 400px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--base-color);
+  border-radius: 3px;
+  box-shadow: 2px 3px rgba(148, 146, 146, 0.603);
+  padding: 20px;
+  gap: 30px;
+}
+.regForm h1 {
+  text-align: center;
+  color: var(--base-color);
+}
+.regForm form {
+  display: flex;
+  flex-direction: column;
+}
+
+.regForm form input {
+  width: 100%;
+  background: rgba(209, 208, 208, 0.283);
+  height: 48px;
+  border: none;
+  border-bottom: 1px solid grey;
+  color: grey;
+  font-size: 13px;
+  font-family: var(--font-family);
+  padding-bottom: 0px;
+  padding-top: 15px;
+}
+.regForm form input:hover {
+  cursor: pointer;
+  border-bottom: 2px solid rgb(96, 96, 96);
+  background: rgba(224, 223, 223, 0.283);
+  transition: 0.4s ease;
+}
+.regForm form input:active {
+  cursor: pointer;
+  background: rgba(185, 185, 185, 0.283);
+  transition: 0.4s ease;
+}
+.regForm form label {
+  color: grey;
+  font-size: 10px;
+  font-family: var(--font-family);
+  position: relative;
+  top: 15px;
+  left: 5px;
+}
+.regForm div {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+}
+.regForm form div button {
+  background: var(--base-color);
+  color: var(--text-color);
+  margin-top: 20px;
+}
