@@ -4,6 +4,8 @@
   --font-family: Courier;
   --font-size: 16px;
   --accent-color: rgb(226, 226, 226);
+  --hover-color: rgba(72, 136, 214, 0.68);
+  --active-color: rgba(66, 119, 184, 0.68);
 }
 * {
   margin: 0;
