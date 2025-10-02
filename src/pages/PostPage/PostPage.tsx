@@ -5,7 +5,6 @@ import { SideBar } from "../../modules/SideBar";
 import { PostCard } from "../../components/PostCard";
 import api from "../../services/baseURL";
 import CommentCard from "../../components/CommentCard/CommentCard";
-import { Pagination } from "@mui/material";
 import WriteComment from "../../components/WriteComment/WriteComment";
 
 interface PostData {
@@ -22,10 +21,6 @@ const PostPage: React.FC = () => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentPost, setPost] = useState<any[]>([]);
-  // const [page, setPage] = useState(1);
-  // const [totalPages, setTotalPages] = useState(1);
-
-  // const COMMENTS_PER_PAGE = 5;
 
   const fetchPost = useCallback(async (id: number) => {
     try {
