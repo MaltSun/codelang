@@ -29,16 +29,19 @@ const SideBar: React.FC<SideBar> = ({ activeItem }) => {
       <div>
         <SideBarItem
           active={addActive("home")}
+          destinition="/"
           text={"Home"}
           icon={<HomeIcon></HomeIcon>}
         ></SideBarItem>
         <SideBarItem
           active={addActive("account")}
+          // destinition=""
           text={"My Account"}
           icon={<AccountBoxIcon></AccountBoxIcon>}
         ></SideBarItem>
         <SideBarItem
           active={addActive("snippets")}
+          destinition="/snippet"
           text={"Post snippet"}
           icon={<SnippetFolderIcon></SnippetFolderIcon>}
         ></SideBarItem>
