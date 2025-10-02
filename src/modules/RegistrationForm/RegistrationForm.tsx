@@ -38,14 +38,7 @@ const RegistrationForm = () => {
 
       if (user) {
         setSuccess("Registration successful!");
-        // localStorage.setItem(
-        //   "user",
-        //   JSON.stringify({
-        //     id: user.id,
-        //     username: user.username,
-        //     role: user.role,
-        //   })
-        // );
+      
         navigate("/login");
       } else {
         setError("Registration failed. Please try again.");
