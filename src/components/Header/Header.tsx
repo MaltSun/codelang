@@ -3,10 +3,14 @@ import "./Header.css";
 import { TranslateIcon, codelangLogo } from "../../ui";
 import { Button } from "../Button";
 
-const Header = () => {
+interface HeaderProps {
+  signOut?: boolean;
+}
+
+const Header: React.FC<HeaderProps> = ({ signOut = true }) => {
   const [lang, setLang] = useState("en");
 
-  const handelLanguage = () => {
+  const handleLanguage = () => {
     setLang(lang === "en" ? "ru" : "en");
   };
 
@@ -17,8 +21,8 @@ const Header = () => {
         <span>codelang</span>
       </div>
       <div>
-        <Button>sign out</Button>
-        <Button onClick={handelLanguage}>
+        {signOut && <Button>sign out</Button>}
+        <Button onClick={handleLanguage}>
           <img src={TranslateIcon} alt="translator" />
           <span>{lang}</span>
         </Button>
@@ -26,6 +30,5 @@ const Header = () => {
     </div>
   );
 };
-
 
 export default Header;
