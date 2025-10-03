@@ -23,8 +23,6 @@ const LoginForm = () => {
         password,
       });
 
-      console.log("LOGIN RESPONSE:", response.data.data);
-
       if (response.data.data) {
         const { id, username: userName, role } = response.data.data;
         setSuccess("Login successful!");
