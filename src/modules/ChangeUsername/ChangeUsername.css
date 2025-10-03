@@ -1,0 +1,32 @@
+.changeUsername {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-family);
+  gap: 15px;
+  width: 50%;
+}
+.changeUsername input {
+  height: 40px;
+  border: 1px solid rgb(105, 103, 103);
+  border-radius: 3px;
+  padding: 5px;
+  font-family: var(--font-family);
+  font-size: 12px;
+
+  width: 100%;
+}
+
+.changeUsername button {
+  background: rgb(24, 133, 24);
+  color: white;
+  border: none;
+  height: 30px;
+  border-radius: 3px;
+  font-family: var(--font-family);
+  text-transform: uppercase;
+  font-size: 16px;
+}
+.changeUsername label {
+  font-weight: 600;
+  font-size: 12px;
+}

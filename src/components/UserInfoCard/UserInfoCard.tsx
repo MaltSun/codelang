@@ -8,39 +8,38 @@ import api from "../../services/baseURL";
 const UserInfoCard = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  // const user = JSON.parse(localStorage.getItem("user") || "{}");
   const [statistic, setStatistic] = useState<any>({});
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user") || "{}")
+  );
 
-  const handleStatistic = async () => {
-    setError("");
-    setSuccess("");
+useEffect(() => {
+  if (!user) return; 
+  handleStatistic();
+}, [user]);
 
-    try {
-      const response = await api.get(`/api/users/${user.id}/statistic`);
+const handleStatistic = async () => {
+  if (!user?.id) return;
 
-      console.log("STATISTIC RESPONSE:", response.data.data);
+  try {
+    const response = await api.get(`/api/users/${user.id}/statistic`, {
+     
+    });
 
-      if (response.data.data.statistic) {
-        const data = response.data.data;
-
-        console.log(data);
-
-        setStatistic(data.statistic);
-        localStorage.setItem("statistic", JSON.stringify(data.statistic));
-        setSuccess("Get statistic successful");
-      } else {
-        setError("No statistic found");
-      }
-    } catch (err) {
-      console.error("Statistic fetch error:", err);
-      setError("An error occurred while trying to load statistics.");
+    const stat = response.data?.data?.statistic;
+    if (stat) {
+      setStatistic(stat);
+      localStorage.setItem("statistic", JSON.stringify(stat));
+    } else {
+      setError("No statistic found");
     }
-  };
+  } catch (err) {
+    console.error("Statistic fetch error:", err);
+    setError("An error occurred while trying to load statistics.");
+  }
+};
 
-  useEffect(() => {
-    handleStatistic();
-  }, []);
-  
   return (
     <div className="userInformation">
       <div>

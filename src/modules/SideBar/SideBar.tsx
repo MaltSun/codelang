@@ -35,7 +35,7 @@ const SideBar: React.FC<SideBar> = ({ activeItem }) => {
         ></SideBarItem>
         <SideBarItem
           active={addActive("account")}
-          // destinition=""
+          destinition="/account"
           text={"My Account"}
           icon={<AccountBoxIcon></AccountBoxIcon>}
         ></SideBarItem>
@@ -47,6 +47,7 @@ const SideBar: React.FC<SideBar> = ({ activeItem }) => {
         ></SideBarItem>
         <SideBarItem
           active={addActive("mySnippets")}
+          destinition="/myPost"
           text={"My snippets"}
           icon={<SnippetFolderIcon></SnippetFolderIcon>}
         ></SideBarItem>
@@ -58,6 +59,7 @@ const SideBar: React.FC<SideBar> = ({ activeItem }) => {
         <SideBarItem
           active={addActive("users")}
           text={"Users"}
+          destinition="/users"
           icon={<GroupIcon></GroupIcon>}
         ></SideBarItem>
       </div>

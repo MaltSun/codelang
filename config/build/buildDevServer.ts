@@ -6,6 +6,15 @@ export function buildDevServer(options: BuildOptions): DevServerConfiguration {
       port: options.port ?? 3000,
       open: true,
       historyApiFallback: true,
-      hot: true
+      hot: true,
+      // proxy: {
+      //    "/api": {
+      //       target: "https://codelang.vercel.app",
+      //       changeOrigin: true,
+      //       secure: false,
+      //       // типизация требует указать тип context
+      //       // pathRewrite и cookieDomainRewrite можно добавить при необходимости
+      //    },
+      // },
    }
 }
