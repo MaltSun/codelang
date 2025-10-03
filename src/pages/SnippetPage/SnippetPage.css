@@ -53,7 +53,7 @@
   height: 30px;
   border-radius: 3px;
   border: none;
-  box-shadow: 2px 3px rgba(140, 136, 136, 0.267);
+  box-shadow: 2px 3px var(--shadow-color);
 }
 #createSnippet:hover {
   cursor: pointer;

@@ -6,6 +6,7 @@
   --accent-color: rgb(226, 226, 226);
   --hover-color: rgba(72, 136, 214, 0.68);
   --active-color: rgba(66, 119, 184, 0.68);
+  --shadow-color:rgba(180, 180, 180, 0.358);
 }
 * {
   margin: 0;
