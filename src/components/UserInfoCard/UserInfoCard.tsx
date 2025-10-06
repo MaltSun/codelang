@@ -1,77 +1,130 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { codelangLogo } from "../../ui";
 import "./UserInfoCard.css";
 import api from "../../services/baseURL";
+import { useNavigate } from "react-router-dom";
 
+interface UserInfoProps {
+  id?: string;
+}
 
+interface UserData {
+  id: string;
+  username: string;
+  role: string;
+}
 
-const UserInfoCard = () => {
+interface UserStatistic {
+  rating?: number;
+  snippetsCount?: number;
+  commentCount?: number;
+  likesCount?: number;
+  dislikesCount?: number;
+  questionsCount?: number;
+  correctAnswerCount?: number;
+  regularAnswerCount?: number;
+}
+
+const UserInfoCard: FC<UserInfoProps> = ({ id }) => {
   const [error, setError] = useState("");
-  const [statistic, setStatistic] = useState<any>({});
-  const [user, setUser] = useState(
+  const [isLoading, setLoading] = useState(false);
+  const [userData, setUserData] = useState<UserData>(
     JSON.parse(sessionStorage.getItem("user") || "{}")
   );
+  const [statistic, setStatistic] = useState<UserStatistic>({});
 
-useEffect(() => {
-  if (!user) return; 
-  handleStatistic();
-}, [user]);
+  const navigate = useNavigate();
 
-const handleStatistic = async () => {
-  if (!user?.id) return;
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const userId = id || userData.id;
+        if (!userId) return;
 
-  try {
-    const response = await api.get(`/users/${user.id}/statistic`, {
-     
-    });
+        const response = await api.get(`/users/${userId}/statistic`);
+        const stat = response.data?.data?.statistic;
+        const userInfo = response.data?.data;
 
-    const stat = response.data?.data?.statistic;
-    if (stat) {
-      setStatistic(stat);
-      sessionStorage.setItem("statistic", JSON.stringify(stat));
-    } else {
-      setError("No statistic found");
+        if (stat) setStatistic(stat);
+        if (id && userInfo) {
+          setUserData({
+            id: userInfo.id,
+            username: userInfo.username,
+            role: userInfo.role,
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load user statistics");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id, userData.id]);
+
+  const handleDelete = async () => {
+    try {
+      const response = await api.delete(`/me`);
+      if (response.data?.data) {
+        sessionStorage.removeItem("user");
+        navigate("/");
+      } else {
+        setError("Failed to delete user");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Failed to delete user");
     }
-  } catch (err) {
-    console.error("Statistic fetch error:", err);
-    setError("An error occurred while trying to load statistics.");
-  }
-};
+  };
+
+  const handleLogOut = () => {
+    sessionStorage.removeItem("user");
+    navigate("/");
+  };
 
   return (
     <div className="userInformation">
-      <div>
-        <img src={codelangLogo} alt="user icon" />
-        <div className="userInfo">
-          <b>{user.username}</b>
-          <p> Id: {user.id}</p>
-          <p> Role: {user.role}</p>
-
-          <div className="userAccOper">
-            <button id="logoutButton">
-              <LogoutOutlinedIcon />
-            </button>
-            <button id="deleteButton">
-              <DeleteOutlineOutlinedIcon />
-            </button>
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <>
+          <div>
+            <img src={codelangLogo} alt="user icon" />
+            <div className="userInfo">
+              <b>{userData.username}</b>
+              <p> Id: {userData.id}</p>
+              <p> Role: {userData.role}</p>
+              {!id && (
+                <div className="userAccOper">
+                  <button id="logoutButton" onClick={handleLogOut}>
+                    <LogoutOutlinedIcon />
+                  </button>
+                  <button id="deleteButton" onClick={handleDelete}>
+                    <DeleteOutlineOutlinedIcon />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </div>
+          <div>
+            <p>Rating: {statistic.rating ?? "-"}</p>
+            <p>Snippets: {statistic.snippetsCount ?? 0}</p>
+            <p>Comments: {statistic.commentCount ?? 0}</p>
+            <p>Likes: {statistic.likesCount ?? 0}</p>
+            <p>Dislikes: {statistic.dislikesCount ?? 0}</p>
+            <p>Questions: {statistic.questionsCount ?? 0}</p>
+            <p>Correct Answer: {statistic.correctAnswerCount ?? 0}</p>
+            <p>Regular Answer: {statistic.regularAnswerCount ?? 0}</p>
+          </div>
 
-      <div>
-        <p>Rating: {statistic?.rating ?? "-"}</p>
-        <p>Snippets: {statistic?.snippetsCount ?? 0}</p>
-        <p>Comments: {statistic?.commentCount ?? 0}</p>
-        <p>Likes: {statistic?.likesCount ?? 0}</p>
-        <p>Dislikes: {statistic?.dislikesCount ?? 0}</p>
-        <p>Questions: {statistic?.questionsCount ?? 0}</p>
-        <p>Correct Answer: {statistic?.correctAnswerCount ?? 0}</p>
-        <p>Regular Answer: {statistic?.regularAnswerCount ?? 0}</p>
-      </div>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
+          {error && <p style={{ color: "red" }}>{error}</p>}
+        </>
+      )}
     </div>
   );
 };

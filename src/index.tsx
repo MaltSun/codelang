@@ -10,6 +10,7 @@ import { UsersPage } from "./pages/UsersPage";
 import { AccountPage } from "./pages/AccountPage";
 import { MyPostPage } from "./pages/MyPostPage";
 import { QuestionsPage } from "./pages/QuestionsPage";
+import { UserProfilePage } from "./pages/UserProfilePage";
 
 const root = document.getElementById("root");
 
@@ -40,21 +41,25 @@ const router = createBrowserRouter([
     path: "/reg",
     element: <RegisterPage />,
   },
-   {
+  {
     path: "/users",
     element: <UsersPage />,
   },
-   {
+  {
     path: "/account",
     element: <AccountPage />,
   },
-   {
+  {
     path: "/myPost",
-    element: <MyPostPage/>,
+    element: <MyPostPage />,
   },
-   {
+  {
     path: "/question",
-    element: <QuestionsPage/>,
+    element: <QuestionsPage />,
+  },
+  {
+    path: "/user/:id",
+    element: <UserProfilePage />,
   },
   {
     path: "*",

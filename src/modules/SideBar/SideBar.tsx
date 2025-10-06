@@ -53,6 +53,7 @@ const SideBar: React.FC<SideBar> = ({ activeItem }) => {
         ></SideBarItem>
         <SideBarItem
           active={addActive("questions")}
+          destinition="/question"
           text={"Questions"}
           icon={<PsychologyAltIcon></PsychologyAltIcon>}
         ></SideBarItem>

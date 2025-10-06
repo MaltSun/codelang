@@ -1,6 +1,7 @@
 import React from "react";
 import "./UserCard.css";
 import PersonIcon from "@mui/icons-material/Person";
+import { useNavigate } from "react-router-dom";
 
 interface UserCardProps {
   id: number;
@@ -9,12 +10,18 @@ interface UserCardProps {
 }
 
 const UserCard: React.FC<UserCardProps> = ({ id, username, role }) => {
+  const navigate = useNavigate();
+
+const handleNavigate=()=>{
+  navigate(`/user/${id}`, {})
+}
+
   return (
     <div className="userCard">
-      <div >
-        <PersonIcon fontSize="large"/>
+      <div onClick={handleNavigate}>
+        <PersonIcon fontSize="large" />
       </div>
-      <div >
+      <div>
         <h1>{username}</h1>
         <span>
           {id} {role}
