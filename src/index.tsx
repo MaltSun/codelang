@@ -1,7 +1,9 @@
+import React from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ProtectedRoute from "./services/ProtectedRoute";
+
 import { HomePage } from "./pages/HomePage";
-import "./ui/style.css";
 import PostPage from "./pages/PostPage/PostPage";
 import { CreatePostPage } from "./pages/SnippetPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -13,10 +15,7 @@ import { QuestionsPage } from "./pages/QuestionsPage";
 import { UserProfilePage } from "./pages/UserProfilePage";
 
 const root = document.getElementById("root");
-
-if (!root) {
-  throw new Error("root not found");
-}
+if (!root) throw new Error("Root element not found");
 
 const container = createRoot(root);
 
@@ -26,32 +25,56 @@ const router = createBrowserRouter([
     element: <HomePage />,
   },
   {
-    path: "/post",
-    element: <PostPage />,
-  },
-  {
-    path: "/snippet",
-    element: <CreatePostPage />,
+    path: "/account",
+    element: (
+      <ProtectedRoute requireAuth>
+        <AccountPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/login",
-    element: <LoginPage />,
+    element: (
+      <ProtectedRoute requireAuth={false}>
+        <LoginPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/reg",
-    element: <RegisterPage />,
+    element: (
+      <ProtectedRoute requireAuth={false}>
+        <RegisterPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/post",
+    element: (
+      <ProtectedRoute requireAuth>
+        <PostPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/snippet",
+    element: (
+      <ProtectedRoute requireAuth>
+        <CreatePostPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/users",
     element: <UsersPage />,
   },
   {
-    path: "/account",
-    element: <AccountPage />,
-  },
-  {
     path: "/myPost",
-    element: <MyPostPage />,
+    element: (
+      <ProtectedRoute requireAuth>
+        <MyPostPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/question",
@@ -67,4 +90,8 @@ const router = createBrowserRouter([
   },
 ]);
 
-container.render(<RouterProvider router={router} />);
+container.render(
+  <React.StrictMode>
+      <RouterProvider router={router} />
+  </React.StrictMode>
+);
