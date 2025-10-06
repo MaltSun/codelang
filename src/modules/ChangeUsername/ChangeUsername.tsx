@@ -17,12 +17,10 @@ const ChangeUsername = () => {
 
       const updateUser = response.data.data;
 
-      console.log("PATCH /me response:", updateUser);
-
       if (updateUser) {
         sessionStorage.setItem("user", JSON.stringify(updateUser));
 
- setUser("");       
+        setUser("");
         window.location.reload();
       } else {
         setError("Username didn't change");
