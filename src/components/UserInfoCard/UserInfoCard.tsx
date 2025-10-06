@@ -5,9 +5,10 @@ import { codelangLogo } from "../../ui";
 import "./UserInfoCard.css";
 import api from "../../services/baseURL";
 
+
+
 const UserInfoCard = () => {
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [statistic, setStatistic] = useState<any>({});
   const [user, setUser] = useState(
     JSON.parse(sessionStorage.getItem("user") || "{}")

@@ -9,6 +9,7 @@ import { RegisterPage } from "./pages/RegisterPage";
 import { UsersPage } from "./pages/UsersPage";
 import { AccountPage } from "./pages/AccountPage";
 import { MyPostPage } from "./pages/MyPostPage";
+import { QuestionsPage } from "./pages/QuestionsPage";
 
 const root = document.getElementById("root");
 
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
    {
     path: "/myPost",
     element: <MyPostPage/>,
+  },
+   {
+    path: "/question",
+    element: <QuestionsPage/>,
   },
   {
     path: "*",
