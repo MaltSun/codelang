@@ -15,7 +15,7 @@ const PostCardList: React.FC = () => {
       setLoading(true);
       setError(null);
 
-      const res = await api.get(`/api/snippets`, {
+      const res = await api.get(`/snippets`, {
         params: { page },
       });
 

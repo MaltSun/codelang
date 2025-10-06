@@ -4,31 +4,27 @@ import api from "../../services/baseURL";
 
 const ChangeUsername = () => {
   const [username, setUsername] = useState(
-    JSON.parse(localStorage.getItem("user")).username
+    JSON.parse(sessionStorage.getItem("user")).username
   );
   const [error, setError] = useState("");
 
   const handleOnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    console.log("send request");
 
     try {
-      const response = await api.patch(
-        "/api/me",
-        { username }
-      );
+      const response = await api.patch("/me", { username: username });
 
       const updateCount = response.data;
 
       console.log("PATCH /api/me response:", response.data);
 
       if (updateCount.updateCount === 1) {
-        let user = JSON.parse(localStorage.getItem("user") || "{}");
+        let user = JSON.parse(sessionStorage.getItem("user") || "{}");
 
         user.username = username;
 
-        localStorage.setItem("user", JSON.stringify(user));
+        sessionStorage.setItem("user", JSON.stringify(user));
       } else {
         setError("Username didn't change");
       }

@@ -9,14 +9,14 @@ const MyPostList: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const userId = JSON.parse(localStorage.getItem("user")).id;
+  const userId = JSON.parse(sessionStorage.getItem("user")).id;
 
   const fetchPosts = useCallback(async (page: number) => {
     try {
       setLoading(true);
       setError(null);
 
-      const res = await api.get(`/api/snippets`, {
+      const res = await api.get(`/snippets`, {
         params: { userId, page },
       });
 

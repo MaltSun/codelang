@@ -18,7 +18,7 @@ const LoginForm = () => {
     setSuccess("");
 
     try {
-      const response = await api.post("/api/auth/login", {
+      const response = await api.post("/auth/login", {
         username,
         password,
       });
@@ -26,7 +26,7 @@ const LoginForm = () => {
       if (response.data.data) {
         const { id, username: userName, role } = response.data.data;
         setSuccess("Login successful!");
-        localStorage.setItem(
+        sessionStorage.setItem(
           "user",
           JSON.stringify({
             id,

@@ -22,7 +22,7 @@ const UsersList = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await api.get("/api/users");
+      const response = await api.get("/users");
       const data = response.data.data.data;
       setUsers(data);
       setTotalPages(Math.ceil(data.length / USERS_PER_PAGE));

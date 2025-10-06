@@ -29,7 +29,7 @@ const RegistrationForm = () => {
     }
 
     try {
-      const response = await api.post("/api/register", {
+      const response = await api.post("/register", {
         username,
         password,
       });

@@ -7,7 +7,7 @@ import { ChangeUsername } from "../../modules/ChangeUsername";
 import ChangePassword from "../../modules/ChangePassword/ChangePassword";
 
 const AccountPage = () => {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const user = JSON.parse(sessionStorage.getItem("user") || "{}");
 
   return (
     <div>

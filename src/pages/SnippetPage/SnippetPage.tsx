@@ -1,9 +1,7 @@
 import { SideBar } from "../../modules/SideBar";
 import { Header } from "../../components/Header";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import MonacoEditor from "react-monaco-editor";
-import { useLocation } from "react-router-dom";
-import api from "../../services/baseURL";
 import "./SnippetPage.css";
 const CreatePostPage = () => {
   const [language, setLanguage] = useState("JavaScript");

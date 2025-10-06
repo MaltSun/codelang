@@ -8,10 +8,9 @@ import api from "../../services/baseURL";
 const UserInfoCard = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  // const user = JSON.parse(localStorage.getItem("user") || "{}");
   const [statistic, setStatistic] = useState<any>({});
   const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user") || "{}")
+    JSON.parse(sessionStorage.getItem("user") || "{}")
   );
 
 useEffect(() => {
@@ -23,14 +22,14 @@ const handleStatistic = async () => {
   if (!user?.id) return;
 
   try {
-    const response = await api.get(`/api/users/${user.id}/statistic`, {
+    const response = await api.get(`/users/${user.id}/statistic`, {
      
     });
 
     const stat = response.data?.data?.statistic;
     if (stat) {
       setStatistic(stat);
-      localStorage.setItem("statistic", JSON.stringify(stat));
+      sessionStorage.setItem("statistic", JSON.stringify(stat));
     } else {
       setError("No statistic found");
     }
