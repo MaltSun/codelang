@@ -17,7 +17,11 @@ const MyPostList: React.FC = () => {
       setError(null);
 
       const res = await api.get(`/snippets`, {
-        params: { userId, page },
+        params: {
+          userId,
+          page,
+          sortBy: ["id:DESC"],
+        },
       });
 
       const { data, meta } = res.data.data;
