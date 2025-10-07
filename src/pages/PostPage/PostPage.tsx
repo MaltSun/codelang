@@ -27,8 +27,10 @@ const PostPage: React.FC = () => {
       setLoading(true);
       setError(null);
 
-      const res = await api.get(`/api/snippets/${id}`, {
-        params: { id: id },
+      const res = await api.get(`/snippets/${id}`, {
+        params: {
+          id: id
+        },
       });
 
       const { data } = res.data;
