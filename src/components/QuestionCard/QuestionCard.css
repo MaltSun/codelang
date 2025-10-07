@@ -1,0 +1,40 @@
+.questionCard {
+  width: 100%;
+  border: 1px solid rgb(182, 182, 182);
+  border-radius: 7px;
+  box-shadow: 2px 3px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  font-family: var(--font-family);
+  margin-top: 20px;
+  padding: 15px 20px;
+  color: rgb(136, 135, 135);
+  gap: 30px;
+}
+.questionCard img {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+.questionCard > div {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.questionCard h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+.questionCard > div p {
+  font-size: 12px;
+  font-weight: 300;
+  color: rgb(161, 160, 160);
+}
+.description {
+  font-size: 14px;
+  height: 70px;
+  overflow-y: scroll;
+}
