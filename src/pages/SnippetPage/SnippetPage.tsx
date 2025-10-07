@@ -1,15 +1,67 @@
 import { SideBar } from "../../modules/SideBar";
 import { Header } from "../../components/Header";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MonacoEditor from "react-monaco-editor";
 import "./SnippetPage.css";
+import api from "../../services/baseURL";
+import { useNavigate } from "react-router-dom";
+
 const CreatePostPage = () => {
   const [language, setLanguage] = useState("JavaScript");
+  const [languages, setLanguages] = useState<string[]>([]);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [code, setCode] = useState("");
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  const navigate = useNavigate();
+
+  const handleWriteComment = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await api.post("/snippets", { code, language });
+      const createdSnippet = response.data;
+
+      if (createdSnippet) {
+        alert("Snippet created successfully!");
+        setCode("");
+        setError("");
+        navigate("/myPost")
+      } else {
+        setError("Snippet wasn't created");
+      }
+    } catch (err: any) {
+      console.error(err);
+      setError(err.response?.data?.message || err.message || "Unknown error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getLanguage = async () => {
+    try {
+      const response = await api.get("/snippets/languages");
+      const snippetLanguage = response.data;
+
+      if (snippetLanguage && Array.isArray(snippetLanguage.data)) {
+        setLanguages(snippetLanguage.data);
+      
+      } else {
+        setError("Invalid language data received");
+      }
+    } catch (err: any) {
+      console.error(err);
+      setError(err.response?.data?.message || err.message || "Unknown error");
+    }
+  };
+
+  useEffect(() => {
+    getLanguage();
+  }, []);
+
+  const handleSetLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setLanguage(e.target.value);
+  };
 
   return (
     <div>
@@ -20,19 +72,19 @@ const CreatePostPage = () => {
           <h1>Create new snippet!</h1>
           <div className="chooseLanguage">
             <p>
-              <b>Language of your shippet:</b>
+              <b>Language of your snippet:</b>
             </p>
             <label htmlFor="">Select</label>
             <select
               value={language}
-              onChange={(e) => {
-                setLanguage(e.target.value);
-              }}
-              name="choooseLanguage"
-              id=""
+              onChange={handleSetLanguage}
+              name="chooseLanguage"
             >
-              <option value="JavaScript">JavaScript</option>
-              <option value="C#">C#</option>
+              {languages.map((lang) => (
+                <option key={lang} value={lang}>
+                  {lang}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -47,11 +99,20 @@ const CreatePostPage = () => {
                 language={language}
                 theme="vs"
                 className="monacoEditor"
+                onChange={setCode}
               />
             </div>
           </div>
 
-          <button id="createSnippet">create snippet</button>
+          {isLoading ? (
+            <button id="createSnippet">Loading...</button>
+          ) : (
+            <button id="createSnippet" onClick={handleWriteComment}>
+              Create snippet
+            </button>
+          )}
+
+          {error && <h1>{error}</h1>}
         </div>
       </div>
     </div>
