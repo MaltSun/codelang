@@ -16,7 +16,11 @@ const QuestionList = () => {
       setError(null);
 
       const res = await api.get(`/questions`, {
-        params: { page, limit: 5 },
+        params: {
+          page,
+          limit: 5,
+          sortBy: ["id:DESC"],
+        },
       });
 
       const { data, meta } = res.data.data;
