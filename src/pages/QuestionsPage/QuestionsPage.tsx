@@ -8,7 +8,7 @@ const QuestionsPage = () => {
     <div>
       <Header askQuestion={true} />
       <div className="main">
-        <SideBar activeItem="home" />
+        <SideBar activeItem="questions" />
         <div className="mainPart">
           <QuestionList />
         </div>

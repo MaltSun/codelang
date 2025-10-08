@@ -7,7 +7,7 @@ const MyPostPage = () => {
     <div>
       <Header />
       <div className="main">
-        <SideBar activeItem="home" />
+        <SideBar activeItem="mySnippets" />
         <div className="mainPart">
           <h1>Welcome to Codelang!</h1>
           <h1>&lt;/&gt;</h1>
