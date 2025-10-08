@@ -7,20 +7,24 @@ import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
 import GroupIcon from "@mui/icons-material/Group";
 import SnippetFolderIcon from "@mui/icons-material/SnippetFolder";
 import { codelangLogo } from "../../ui";
+import { useNavigate } from "react-router-dom";
 
-interface SideBar {
+interface SideBarProps {
   activeItem: string;
 }
 
-const SideBar: React.FC<SideBar> = ({ activeItem }) => {
+const SideBar: React.FC<SideBarProps> = ({ activeItem }) => {
   const addActive = (id: string) => {
     if (activeItem === id) {
       return true;
     } else return false;
   };
+
+  const navigate = useNavigate();
+ 
   return (
     <div className="sideBar">
-      <div className="profileSideBar">
+      <div onClick={()=>navigate("/account")} className="profileSideBar">
         <img src={codelangLogo} alt="codelang logo" />
         <span>user name</span>
         <span></span>

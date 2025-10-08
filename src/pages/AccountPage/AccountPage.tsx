@@ -12,7 +12,7 @@ const AccountPage = () => {
   ); 
 return (
     <div>
-      <Header />
+      <Header/>
       <div className="main">
         <SideBar activeItem="account" />
         <div className="mainPart">
