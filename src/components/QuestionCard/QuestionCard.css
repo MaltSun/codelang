@@ -17,11 +17,7 @@
   height: 40px;
   border-radius: 20px;
 }
-.questionCard > div {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-}
+
 .questionCard h2 {
   font-size: 18px;
   font-weight: 600;
@@ -37,4 +33,22 @@
   font-size: 14px;
   height: 70px;
   overflow-y: scroll;
+}
+.questionHeader {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+.questionHeader > div {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.questionHeader button {
+  background: none;
+  border: none;
+}
+.questionHeader button:hover {
+  cursor: pointer;
 }
