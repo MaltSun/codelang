@@ -3,6 +3,8 @@ import "./Header.css";
 import { TranslateIcon, codelangLogo } from "../../ui";
 import { Button } from "../Button";
 import { useNavigate } from "react-router-dom";
+import { CreateQuestion } from "@/modules/CreateQuestion";
+import ProtectedRoute from "@/services/ProtectedRoute";
 
 interface HeaderProps {
   signOut?: boolean;
@@ -14,16 +16,25 @@ const Header: React.FC<HeaderProps> = ({
   askQuestion = false,
 }) => {
   const [lang, setLang] = useState("en");
-  
-  const navigate = useNavigate()
+  const [isOpen, setOpen] = useState(false);
+  const [isLoged, setLogIn] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleLanguage = () => {
     setLang(lang === "en" ? "ru" : "en");
   };
 
   const handleLogOut = () => {
-    sessionStorage.removeItem("user");
     navigate("/");
+    sessionStorage.removeItem("user");
+  };
+
+  const handleOpenQuestion = () => {
+    setOpen(true);
+  };
+  const handleCloseQuestion = () => {
+    setOpen(false);
   };
 
   return (
@@ -33,9 +44,9 @@ const Header: React.FC<HeaderProps> = ({
         <span>codelang</span>
       </div>
       <div>
-        {signOut &&
+        {isLoged &&
           (askQuestion ? (
-            <Button>ask question</Button>
+            <Button onClick={handleOpenQuestion}>ask question</Button>
           ) : (
             <Button onClick={handleLogOut}>sign out</Button>
           ))}
@@ -45,6 +56,7 @@ const Header: React.FC<HeaderProps> = ({
           <span>{lang}</span>
         </Button>
       </div>
+      {isOpen && <CreateQuestion onClose={handleCloseQuestion} />}
     </div>
   );
 };
