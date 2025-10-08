@@ -5,7 +5,7 @@ import { SideBar } from "../../modules/SideBar";
 import { PostCard } from "../../components/PostCard";
 import api from "../../services/baseURL";
 import CommentCard from "../../components/CommentCard/CommentCard";
-import WriteComment from "../../components/WriteComment/WriteComment";
+import WriteComment from "../../modules/WriteComment/WriteComment";
 
 interface PostData {
   id: number;
@@ -29,14 +29,14 @@ const PostPage: React.FC = () => {
 
       const res = await api.get(`/snippets/${id}`, {
         params: {
-          id: id
+          id: id,
         },
       });
 
       const { data } = res.data;
 
       if (Array.isArray(data.comments)) {
-        setPost(data.comments);
+        setPost(data.comments.reverse());
       } else {
         console.error("Unexpected API response format:", res.data);
         setError("Invalid response format");
@@ -79,7 +79,7 @@ const PostPage: React.FC = () => {
             code={post.code}
           />
 
-          <WriteComment />
+          <WriteComment snippetId={post.id} />
 
           {currentPost.length > 0 ? (
             currentPost.map((comment) => (
