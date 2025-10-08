@@ -17,7 +17,6 @@ const ChangePassword = () => {
     const formData = new FormData(form);
     const oldPassword = formData.get("oldPass")?.toString() || "";
     const newPassword = formData.get("newPass")?.toString() || "";
-    const confirmPassword = formData.get("confirmPass")?.toString() || "";
 
     if (handleValidation) {
       setError("Passwords do not match or invalid format");
