@@ -16,7 +16,7 @@ const PostCardList: React.FC = () => {
       setError(null);
 
       const res = await api.get(`/snippets`, {
-        params: { page },
+        params: { page, sortBy: ["id:DESC"] },
       });
 
       const { data, meta } = res.data.data;
@@ -84,6 +84,7 @@ const PostCardList: React.FC = () => {
             commentsNumber={post.commentsNumber}
             likesNumber={post.likesNumber}
             dislikesNumber={post.dislikesNumber}
+           
           />
         ))
       ) : (

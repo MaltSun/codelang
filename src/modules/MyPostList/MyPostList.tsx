@@ -2,8 +2,14 @@ import React, { useCallback, useEffect, useState } from "react";
 import api from "../../services/baseURL";
 import { PostCard } from "../../components/PostCard";
 import { Pagination } from "../../components/Pagination";
+import { EditPost } from "../EditPost";
 
-const MyPostList: React.FC = () => {
+interface MyPostListProps {
+  onClick?: () => void;
+}
+
+const MyPostList: React.FC<MyPostListProps> = ({ onClick }) => {
+  
   const [posts, setPosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -89,6 +95,8 @@ const MyPostList: React.FC = () => {
             commentsNumber={post.commentsNumber}
             likesNumber={post.likesNumber}
             dislikesNumber={post.dislikesNumber}
+            canEdit={true}
+            openEdit={onClick}
           />
         ))
       ) : (

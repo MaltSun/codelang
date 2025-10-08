@@ -34,8 +34,8 @@
   align-items: center;
   height: 40px;
 }
-.postCardFooter > span:first-child {
-  gap: 10px;
+.postCardFooter > span {
+  gap: 12px;
 }
 .postCardFooter button {
   background: none;
