@@ -1,6 +1,6 @@
 import React, { Suspense, useCallback, useEffect, useState, lazy} from "react";
-import api from "@/services/baseURL";
-import { Pagination } from "@/components/Pagination";
+import api from "../../services/baseURL";
+import { Pagination } from "../../components/Pagination";
 
 const PostCard = lazy(() => import("@/components/PostCard/PostCard"));
 

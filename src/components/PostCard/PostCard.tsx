@@ -24,9 +24,8 @@ interface PostCardProps {
   commentsNumber: number;
   readonly?: boolean;
   canEdit?: boolean;
-  openEdit?: () => void;
-  mark?: "like" | "dislike" | null;
-   onSuccess?: () => void;
+  mark?: "like" | "dislike" | null; 
+  onSuccess?: () => void;
 }
 
 const PostCard: React.FC<PostCardProps> = React.memo(
@@ -40,14 +39,14 @@ const PostCard: React.FC<PostCardProps> = React.memo(
     commentsNumber,
     canEdit = false,
     mark = null,
-    onSuccess
+    onSuccess,
   }) => {
     const navigate = useNavigate();
 
     const [isOpen, setOpen] = useState(false);
     const [likes, setLikes] = useState(likesNumber);
     const [dislikes, setDislikes] = useState(dislikesNumber);
-    const [userMark, setUserMark] = useState<"like" | "dislike" | null>(null);
+    const [userMark, setUserMark] = useState<"like" | "dislike" | null>(mark);
     const [user, setUser] = useState<any>(null);
 
     useEffect(() => {
@@ -55,7 +54,15 @@ const PostCard: React.FC<PostCardProps> = React.memo(
       if (stored) {
         const parsed = JSON.parse(stored);
         setUser(parsed);
-        if (mark) setUserMark(mark);
+
+        if (parsed.id && mark) {
+          setUserMark(mark);
+        } else {
+          setUserMark(null);
+        }
+      } else {
+        setUser(null);
+        setUserMark(null);
       }
     }, [mark]);
 
@@ -68,6 +75,8 @@ const PostCard: React.FC<PostCardProps> = React.memo(
         navigate("/login");
         return;
       }
+
+      if (userMark === newMark && mark === newMark) return;
 
       try {
         if (userMark === newMark) {
@@ -136,7 +145,7 @@ const PostCard: React.FC<PostCardProps> = React.memo(
                 className={!user ? "disabledBtn" : ""}
                 title={!user ? "Login to like" : ""}
               >
-                {user && userMark === "like" ? (
+                {userMark === "like" ? (
                   <ThumbUpIcon sx={{ color: red[400] }} />
                 ) : (
                   <ThumbUpOffAltIcon
@@ -158,7 +167,7 @@ const PostCard: React.FC<PostCardProps> = React.memo(
                 className={!user ? "disabledBtn" : ""}
                 title={!user ? "Login to dislike" : ""}
               >
-                {user && userMark === "dislike" ? (
+                {userMark === "dislike" ? (
                   <ThumbDownAltIcon sx={{ color: red[500] }} />
                 ) : (
                   <ThumbDownOffAltIcon

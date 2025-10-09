@@ -5,10 +5,12 @@ import api from "@/services/baseURL";
 
 interface WriteCommentProps {
   snippetId: number;
+  refresh?:()=>void
 }
 
 const WriteComment: React.FC<WriteCommentProps> = ({
   snippetId,
+  refresh
 }) => {
   const [code, setCode] = useState("");
 
@@ -23,8 +25,7 @@ const WriteComment: React.FC<WriteCommentProps> = ({
       setCode('')
 
       if (response.data) {
-        alert("Success");
-        
+        refresh()
       }
     } catch (err) {
       console.error(err);

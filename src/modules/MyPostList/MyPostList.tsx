@@ -98,7 +98,7 @@ const MyPostList: React.FC<MyPostListProps> = ({ onClick, refresh, onEdit }) => 
             likesNumber={post.likesNumber}
             dislikesNumber={post.dislikesNumber}
             canEdit={true}
-            openEdit={onClick}
+            // openEdit={onClick}
             onSuccess={onEdit}
           />
         ))

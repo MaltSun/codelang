@@ -1,11 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useState, lazy } from "react";
 import { useLocation } from "react-router-dom";
 import { Header } from "../../components/Header";
 import { SideBar } from "../../modules/SideBar";
 import { PostCard } from "../../components/PostCard";
 import api from "../../services/baseURL";
-import CommentCard from "../../components/CommentCard/CommentCard";
 import WriteComment from "../../modules/WriteComment/WriteComment";
+
+const CommentCard = lazy(
+  () => import("../../components/CommentCard/CommentCard")
+);
 
 interface PostData {
   id: number;
@@ -21,6 +24,11 @@ const PostPage: React.FC = () => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentPost, setPost] = useState<any[]>([]);
+  const [refresh, setRefresh] = useState(0);
+
+  const handleOnSuccess = () => {
+    setRefresh((prev) => prev + 1);
+  };
 
   const fetchPost = useCallback(async (id: number) => {
     try {
@@ -54,7 +62,7 @@ const PostPage: React.FC = () => {
 
   useEffect(() => {
     fetchPost(post.id);
-  }, [fetchPost, post.id]);
+  }, [fetchPost, post.id, refresh]);
 
   if (!post) {
     return <p>No post data</p>;
@@ -79,16 +87,18 @@ const PostPage: React.FC = () => {
             code={post.code}
           />
 
-          <WriteComment snippetId={post.id} />
+          <WriteComment snippetId={post.id} refresh={handleOnSuccess} />
 
           {currentPost.length > 0 ? (
             currentPost.map((comment) => (
-              <CommentCard
-                key={comment.id}
-                id={comment.id}
-                content={comment.content}
-                username={comment.user?.username || "Anonymous"}
-              />
+              <Suspense>
+                <CommentCard
+                  key={comment.id}
+                  id={comment.id}
+                  content={comment.content}
+                  username={comment.user?.username || "Anonymous"}
+                />
+              </Suspense>
             ))
           ) : (
             <p>No comments</p>
