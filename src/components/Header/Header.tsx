@@ -21,10 +21,11 @@ const Header: React.FC<HeaderProps> = ({ askQuestion = false, onClick }) => {
     setLang(lang === "en" ? "ru" : "en");
   };
 
-  const handleLogOut = () => {
-    navigate("/");
+ const handleLogOut = () => {
     sessionStorage.removeItem("user");
+    navigate("/");
   };
+  
   return (
     <div className="header">
       <div className="logoBlock">

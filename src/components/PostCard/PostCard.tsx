@@ -24,7 +24,7 @@ interface PostCardProps {
   commentsNumber: number;
   readonly?: boolean;
   canEdit?: boolean;
-  mark?: "like" | "dislike" | null; 
+  mark?: "like" | "dislike";
   onSuccess?: () => void;
 }
 
@@ -38,7 +38,7 @@ const PostCard: React.FC<PostCardProps> = React.memo(
     dislikesNumber,
     commentsNumber,
     canEdit = false,
-    mark = null,
+    mark,
     onSuccess,
   }) => {
     const navigate = useNavigate();
@@ -46,7 +46,7 @@ const PostCard: React.FC<PostCardProps> = React.memo(
     const [isOpen, setOpen] = useState(false);
     const [likes, setLikes] = useState(likesNumber);
     const [dislikes, setDislikes] = useState(dislikesNumber);
-    const [userMark, setUserMark] = useState<"like" | "dislike" | null>(mark);
+    const [userMark, setUserMark] = useState<"like" | "dislike">(mark);
     const [user, setUser] = useState<any>(null);
 
     useEffect(() => {
@@ -76,27 +76,25 @@ const PostCard: React.FC<PostCardProps> = React.memo(
         return;
       }
 
-      if (userMark === newMark && mark === newMark) return;
-
       try {
         if (userMark === newMark) {
           setUserMark(null);
-          if (newMark === "like") setLikes((l) => l - 1);
-          else setDislikes((d) => d - 1);
+          if (newMark === "like") setLikes((l) => (l > 0 ? l - 1 : 0));
+          else setDislikes((d) => (d > 0 ? d - 1 : 0));
         } else {
           if (newMark === "like") {
             setLikes((l) => l + 1);
-            if (userMark === "dislike") setDislikes((d) => d - 1);
+            if (userMark === "dislike") setDislikes((d) => (d > 0 ? d - 1 : 0));
           } else {
             setDislikes((d) => d + 1);
-            if (userMark === "like") setLikes((l) => l - 1);
+            if (userMark === "like") setLikes((l) => (l > 0 ? l - 1 : 0));
           }
           setUserMark(newMark);
         }
 
         await api.post(`/snippets/${id}/mark`, { mark: newMark });
       } catch (err) {
-        console.error(err);
+        console.error("Failed to mark snippet:", err);
       }
     };
 

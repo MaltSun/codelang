@@ -1,8 +1,7 @@
-import React, { Suspense, useCallback, useEffect, useState, lazy} from "react";
+import React, { Suspense, useCallback, useEffect, useState, lazy } from "react";
 import api from "../../services/baseURL";
+import { PostCard } from "../../components/PostCard";
 import { Pagination } from "../../components/Pagination";
-
-const PostCard = lazy(() => import("@/components/PostCard/PostCard"));
 
 const PostCardList: React.FC = () => {
   const [posts, setPosts] = useState<any[]>([]);
@@ -55,7 +54,7 @@ const PostCardList: React.FC = () => {
         post.marks?.filter((m: any) => m.type === "dislike").length ?? 0;
       const comments = post.comments?.length ?? 0;
       const userMark =
-        post.marks?.find((m: any) => m.userId === userId)?.type ?? null;
+        post.marks?.find((m: any) => m.user.id === userId)?.type ?? null;
 
       return {
         ...post,
@@ -92,17 +91,17 @@ const PostCardList: React.FC = () => {
         posts.map((post) => (
           <Suspense>
             <PostCard
-            key={post.id}
-            id={post.id}
-            username={post.user?.username || "Unknown User"}
-            language={post.language || "JavaScript"}
-            code={post.code || "// write your code"}
-            commentsNumber={post.commentsNumber}
-            likesNumber={post.likesNumber}
-            dislikesNumber={post.dislikesNumber}
-            mark={post.mark}
-          />
-          </Suspense>          
+              key={post.id}
+              id={post.id}
+              username={post.user?.username || "Unknown User"}
+              language={post.language || "JavaScript"}
+              code={post.code || "// write your code"}
+              commentsNumber={post.commentsNumber}
+              likesNumber={post.likesNumber}
+              dislikesNumber={post.dislikesNumber}
+              mark={post.mark}
+            />
+          </Suspense>
         ))
       ) : (
         <p>No data</p>

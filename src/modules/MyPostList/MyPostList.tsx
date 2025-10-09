@@ -6,12 +6,15 @@ import { EditPost } from "../EditPost";
 
 interface MyPostListProps {
   onClick?: () => void;
-    refresh?: number;
-    onEdit?:()=>void
+  refresh?: number;
+  onEdit?: () => void;
 }
 
-const MyPostList: React.FC<MyPostListProps> = ({ onClick, refresh, onEdit }) => {
-  
+const MyPostList: React.FC<MyPostListProps> = ({
+  onClick,
+  refresh,
+  onEdit,
+}) => {
   const [posts, setPosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -62,6 +65,8 @@ const MyPostList: React.FC<MyPostListProps> = ({ onClick, refresh, onEdit }) => 
       dislikesNumber:
         post.marks?.filter((m: any) => m.type === "dislike").length ?? 0,
       commentsNumber: post.comments?.length ?? 0,
+      userMark:
+        post.marks?.find((m: any) => m.user.id === userId)?.type ?? null,
     }));
 
   const handleNextPageClick = useCallback(() => {
@@ -98,8 +103,8 @@ const MyPostList: React.FC<MyPostListProps> = ({ onClick, refresh, onEdit }) => 
             likesNumber={post.likesNumber}
             dislikesNumber={post.dislikesNumber}
             canEdit={true}
-            // openEdit={onClick}
             onSuccess={onEdit}
+            mark={post.mark}
           />
         ))
       ) : (
