@@ -1,7 +1,8 @@
 import api from "../../services/baseURL";
-import { UserCard } from "../../components/UserCard";
-import React, { useState, useEffect, useCallback } from "react";
-import { Pagination } from "../../components/Pagination";
+import React, { useState, useEffect, useCallback, Suspense, lazy } from "react";
+
+const Pagination = lazy(() => import("@/components/Pagination/Pagination"));
+const UserCard = lazy(() => import("@/components/UserCard/UserCard"));
 
 interface User {
   id: number;
@@ -53,24 +54,26 @@ const UsersList = () => {
 
   return (
     <>
-      <Pagination
-        onNextPageClick={handleNextPageClick}
-        onPrevPageClick={handlePrevPageClick}
-        disable={{
-          left: page === 1,
-          right: page === totalPages,
-        }}
-        nav={{ current: page, total: totalPages }}
-      />
-
-      {currentUsers.map((user) => (
-        <UserCard
-          key={user.id}
-          id={user.id}
-          username={user.username}
-          role={user.role}
+      <Suspense>
+        <Pagination
+          onNextPageClick={handleNextPageClick}
+          onPrevPageClick={handlePrevPageClick}
+          disable={{
+            left: page === 1,
+            right: page === totalPages,
+          }}
+          nav={{ current: page, total: totalPages }}
         />
-      ))}
+
+        {currentUsers.map((user) => (
+          <UserCard
+            key={user.id}
+            id={user.id}
+            username={user.username}
+            role={user.role}
+          />
+        ))}
+      </Suspense>
     </>
   );
 };

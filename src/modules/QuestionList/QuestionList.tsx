@@ -1,7 +1,8 @@
 import api from "../../services/baseURL";
 import Pagination from "../../components/Pagination/Pagination";
-import React, { useCallback, useEffect, useState } from "react";
-import { QuestionCard } from "@/components/QuestionCard";
+import React, { Suspense, useCallback, useEffect, useState, lazy } from "react";
+
+const  QuestionCard = lazy(()=>import ("@/components/QuestionCard/QuestionCard")) ;
 
 const QuestionList = () => {
   const [questions, setQuestions] = useState<any[]>([]);
@@ -79,12 +80,14 @@ const QuestionList = () => {
       />
       {questions.length > 0 ? (
         questions.map((question) => (
-          <QuestionCard
-            id={question.id}
-            title={question.title}
-            description={question.description}
-            username={question.user.username}
-          />
+          <Suspense>
+            <QuestionCard
+              id={question.id}
+              title={question.title}
+              description={question.description}
+              username={question.user.username}
+            />
+          </Suspense>
         ))
       ) : (
         <p>No data</p>

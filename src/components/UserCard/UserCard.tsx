@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import "./UserCard.css";
 import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ interface UserCardProps {
   role: string;
 }
 
-const UserCard: React.FC<UserCardProps> = ({ id, username, role }) => {
+const UserCard: React.FC<UserCardProps> = React.memo(({ id, username, role }) => {
   const navigate = useNavigate();
 
 const handleNavigate=()=>{
@@ -29,6 +29,6 @@ const handleNavigate=()=>{
       </div>
     </div>
   );
-};
+});
 
 export default UserCard;

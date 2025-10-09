@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import MonacoEditor from "react-monaco-editor";
 import PersonIcon from "@mui/icons-material/Person";
 import "./PostCard.css";
@@ -11,7 +11,8 @@ import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/baseURL";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-import { EditPost } from "@/modules/EditPost";
+
+const EditPost = lazy(() => import("@/modules/EditPost/EditPost"));
 
 interface PostCardProps {
   id: number;
@@ -24,6 +25,7 @@ interface PostCardProps {
   readonly?: boolean;
   canEdit?: boolean;
   openEdit?: () => void;
+  mark?: "like" | "dislike" | null;
 }
 
 const PostCard: React.FC<PostCardProps> = React.memo(
@@ -36,42 +38,68 @@ const PostCard: React.FC<PostCardProps> = React.memo(
     dislikesNumber,
     commentsNumber,
     canEdit = false,
+    mark = null,
   }) => {
-    const [isOpen, setOpen] = useState(false);
-
-    const handleOpen = () => {
-      setOpen(true);
-    };
-
-    const handleSetClose = () => {
-      setOpen(false);
-    };
-
     const navigate = useNavigate();
 
-    const handleMark = async (mark: string) => {
+    const [isOpen, setOpen] = useState(false);
+    const [likes, setLikes] = useState(likesNumber);
+    const [dislikes, setDislikes] = useState(dislikesNumber);
+    const [userMark, setUserMark] = useState<"like" | "dislike" | null>(null);
+    const [user, setUser] = useState<any>(null);
+
+    useEffect(() => {
+      const stored = sessionStorage.getItem("user");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        setUser(parsed);
+        if (mark) setUserMark(mark);
+      }
+    }, [mark]);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const handleMark = async (newMark: "like" | "dislike") => {
+      if (!user) {
+        alert("You need to login to like or dislike posts.");
+        navigate("/login");
+        return;
+      }
+
       try {
-        const response = await api.post(`/snippets/${id}/mark`, { mark });
-
-        const newMark = response.data;
-
-        if (newMark) {
-          console.log(newMark);
+        if (userMark === newMark) {
+          setUserMark(null);
+          if (newMark === "like") setLikes((l) => l - 1);
+          else setDislikes((d) => d - 1);
+        } else {
+          if (newMark === "like") {
+            setLikes((l) => l + 1);
+            if (userMark === "dislike") setDislikes((d) => d - 1);
+          } else {
+            setDislikes((d) => d + 1);
+            if (userMark === "like") setLikes((l) => l - 1);
+          }
+          setUserMark(newMark);
         }
+
+        await api.post(`/snippets/${id}/mark`, { mark: newMark });
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     };
 
     return (
       <div key={id} className="postCard">
         {isOpen && (
-          <EditPost
-            onClose={handleSetClose}
-            id={id}
-            lang={language}
-            code={code}
-          />
+          <Suspense>
+            <EditPost
+              onClose={handleClose}
+              id={id}
+              lang={language}
+              code={code}
+            />
+          </Suspense>
         )}
 
         <div className="postCardHeader">
@@ -97,30 +125,52 @@ const PostCard: React.FC<PostCardProps> = React.memo(
         />
 
         <div className="postCardFooter">
-          <span>
+          <span className="postActions">
             <span>
               <button
-                onClick={() => {
-                  handleMark("like");
-                }}
+                disabled={!user}
+                onClick={() => handleMark("like")}
+                className={!user ? "disabledBtn" : ""}
+                title={!user ? "Login to like" : ""}
               >
-                <ThumbUpOffAltIcon sx={{ color: red[400] }} />
+                {user && userMark === "like" ? (
+                  <ThumbUpIcon sx={{ color: red[400] }} />
+                ) : (
+                  <ThumbUpOffAltIcon
+                    sx={{
+                      color: red[400],
+                      opacity: user ? 0.6 : 0.3,
+                      cursor: user ? "pointer" : "not-allowed",
+                    }}
+                  />
+                )}
               </button>
-
-              {likesNumber}
+              {likes}
             </span>
+
             <span>
               <button
-                onClick={() => {
-                  handleMark("dislike");
-                }}
+                disabled={!user}
+                onClick={() => handleMark("dislike")}
+                className={!user ? "disabledBtn" : ""}
+                title={!user ? "Login to dislike" : ""}
               >
-                <ThumbDownOffAltIcon sx={{ color: red[400] }} />
+                {user && userMark === "dislike" ? (
+                  <ThumbDownAltIcon sx={{ color: red[500] }} />
+                ) : (
+                  <ThumbDownOffAltIcon
+                    sx={{
+                      color: red[400],
+                      opacity: user ? 0.6 : 0.3,
+                      cursor: user ? "pointer" : "not-allowed",
+                    }}
+                  />
+                )}
               </button>
-
-              {dislikesNumber}
+              {dislikes}
             </span>
           </span>
+
           <span>
             {canEdit && (
               <button onClick={handleOpen}>
@@ -135,8 +185,8 @@ const PostCard: React.FC<PostCardProps> = React.memo(
                     username,
                     language,
                     code,
-                    likesNumber,
-                    dislikesNumber,
+                    likesNumber: likes,
+                    dislikesNumber: dislikes,
                     commentsNumber,
                   },
                 })

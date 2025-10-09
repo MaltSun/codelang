@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import "./AccountPage.css";
 import { Header } from "../../components/Header";
 import { SideBar } from "../../modules/SideBar";
 import UserInfoCard from "../../components/UserInfoCard/UserInfoCard";
-import { ChangeUsername } from "../../modules/ChangeUsername";
-import ChangePassword from "../../modules/ChangePassword/ChangePassword";
+
+const  ChangeUsername = lazy(()=> import( "@/modules/ChangeUsername/ChangeUsername"));
+const ChangePassword = lazy(()=> import("@/modules/ChangePassword/ChangePassword")) ;
 
 const AccountPage = () => {
   const [user, setUser] = useState(
     JSON.parse(sessionStorage.getItem("user") || "{}")
-  ); 
-return (
+  );
+  return (
     <div>
-      <Header/>
+      <Header />
       <div className="main">
         <SideBar activeItem="account" />
         <div className="mainPart">
@@ -21,8 +22,12 @@ return (
           <div className="changeBlock">
             <p>Edit your profile:</p>
             <div>
-              <ChangeUsername />
-              <ChangePassword />
+              <Suspense>
+                <ChangeUsername />
+              </Suspense>
+              <Suspense>
+                <ChangePassword />
+              </Suspense>
             </div>
           </div>
         </div>
@@ -32,4 +37,3 @@ return (
 };
 
 export default AccountPage;
-

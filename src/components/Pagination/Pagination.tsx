@@ -14,7 +14,7 @@ type PaginationProps = {
   };
 };
 
-const Pagination = (props: PaginationProps) => {
+const Pagination = React.memo((props: PaginationProps) => {
   const { nav = null, disable, onNextPageClick, onPrevPageClick } = props;
 
   const handleNextPageClick = () => {
@@ -43,6 +43,6 @@ const Pagination = (props: PaginationProps) => {
       </button>
     </div>
   );
-};
+});
 
 export default React.memo(Pagination);

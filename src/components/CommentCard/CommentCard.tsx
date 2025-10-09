@@ -8,7 +8,7 @@ interface CommentCardProps {
   content: string;
 }
 
-const CommentCard: React.FC<CommentCardProps> = ({
+const CommentCard: React.FC<CommentCardProps> = React.memo(({
   id,
   username = "Unknown User",
   content,
@@ -22,6 +22,6 @@ const CommentCard: React.FC<CommentCardProps> = ({
       <div className="content">{content}</div>
     </div>
   );
-};
+});
 
 export default CommentCard;

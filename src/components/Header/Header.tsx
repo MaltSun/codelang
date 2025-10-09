@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import "./Header.css";
 import { TranslateIcon, codelangLogo } from "../../ui";
-import { Button } from "../Button";
 import { useNavigate } from "react-router-dom";
+
+const Button = lazy(() => import("../Button/Button"));
 
 interface HeaderProps {
   signOut?: boolean;
@@ -31,19 +32,21 @@ const Header: React.FC<HeaderProps> = ({ askQuestion = false, onClick }) => {
         <span>codelang</span>
       </div>
       <div>
-        {isLoged &&
-          (askQuestion ? (
-            <Button onClick={onClick}>ask question</Button>
-          ) : (
-            <Button onClick={handleLogOut}>sign out</Button>
-          ))}
-
+        {" "}
+        <Suspense>
+          {isLoged &&
+            (askQuestion ? (
+              <Button onClick={onClick}>ask question</Button>
+            ) : (
+              <Button onClick={handleLogOut}>sign out</Button>
+            ))}
+        </Suspense>
         <Button onClick={handleLanguage}>
           <img src={TranslateIcon} alt="translator" />
           <span>{lang}</span>
         </Button>
       </div>
-         </div>
+    </div>
   );
 };
 
