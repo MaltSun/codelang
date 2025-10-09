@@ -20,16 +20,23 @@ const SideBar: React.FC<SideBarProps> = ({ activeItem }) => {
     } else return false;
   };
 
+  const user = JSON.parse(sessionStorage.getItem("user")) || {};
+
   const navigate = useNavigate();
- 
+
   return (
     <div className="sideBar">
-      <div onClick={()=>navigate("/account")} className="profileSideBar">
-        <img src={codelangLogo} alt="codelang logo" />
-        <span>user name</span>
-        <span></span>
-      </div>
-      <hr />
+      {user.username && (
+        <>
+        <div onClick={() => navigate("/account")} className="profileSideBar">
+          <img src={codelangLogo} alt="codelang logo" />
+          <span>{user.username}</span>
+        </div>
+        <hr />
+        </>
+      )}
+
+      
       <div>
         <SideBarItem
           active={addActive("home")}
