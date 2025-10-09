@@ -1,39 +1,48 @@
 import api from "../../services/baseURL";
 import React, { useState } from "react";
 
-const ChangePassword = () => {
-  const [error, setError] = useState("");
-  const [isLoading, setLoading] = useState(false);
+interface ChangePasswordProps {
+  onSubmit?: () => void;
+}
+
+const ChangePassword: React.FC<ChangePasswordProps> = ({ onSubmit }) => {
+  const [oldPass, setOldPassword] = useState("");
   const [newPass, setNewPassword] = useState("");
   const [confirmPass, setConfirmPassword] = useState("");
-  const [oldPass, setOldPassword] = useState("");
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleValidation = (): boolean => {
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
+    if (!oldPass) return false; 
+    if (newPass !== confirmPass) return false;
+    if (!passwordRegex.test(newPass)) return false; 
+    return true;
+  };
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
-
     const form = e.currentTarget;
-    const formData = new FormData(form);
-    const oldPassword = formData.get("oldPass")?.toString() || "";
-    const newPassword = formData.get("newPass")?.toString() || "";
 
-    if (handleValidation) {
-      setError("Passwords do not match or invalid format");
-      setLoading(false);
+    if (!handleValidation()) {
+      setError(
+        "Passwords do not match, invalid format, or old password is empty"
+      );
       return;
     }
 
+    setLoading(true);
+
     try {
       const response = await api.patch("/me/password", {
-        oldPassword,
-        newPassword,
+        oldPassword: oldPass,
+        newPassword: newPass,
       });
 
-      const updatedUser = response.data;
-      if (updatedUser) {
-        alert("Success");
-        form.reset();
+      if (response.data) {
+        alert("Password successfully changed!");
+        onSubmit?.();
       } else {
         setError("Password didn't change");
       }
@@ -42,12 +51,10 @@ const ChangePassword = () => {
       setError(err.response?.data?.message || err.message || "Unknown error");
     } finally {
       setLoading(false);
-    }
-  };
 
-  const handleValidation = () => {
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
-    return newPass === confirmPass && passwordRegex.test(newPass);
+      form.reset();
+      setError("");
+    }
   };
 
   const handleInputNewPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,10 +88,9 @@ const ChangePassword = () => {
           onChange={handleConfirmPassword}
         />
         <button type="submit">Change password</button>
+        {isLoading && <p>Loading...</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
-
-      {isLoading && <p>Loading...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
     </>
   );
 };

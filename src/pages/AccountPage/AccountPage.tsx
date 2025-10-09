@@ -11,6 +11,13 @@ const AccountPage = () => {
   const [user, setUser] = useState(
     JSON.parse(sessionStorage.getItem("user") || "{}")
   );
+    const [refresh, setRefresh] = useState(0); 
+  
+    const handleOnSuccess = () => {
+      setRefresh(prev => prev + 1); 
+    };
+  
+
   return (
     <div>
       <Header />
@@ -18,15 +25,15 @@ const AccountPage = () => {
         <SideBar activeItem="account" />
         <div className="mainPart">
           <h1>Welcome, {user.username}</h1>
-          <UserInfoCard />
+          <UserInfoCard refresh={refresh}/>
           <div className="changeBlock">
             <p>Edit your profile:</p>
             <div>
               <Suspense>
-                <ChangeUsername />
+                <ChangeUsername onSubmit={handleOnSuccess}/>
               </Suspense>
               <Suspense>
-                <ChangePassword />
+                <ChangePassword onSubmit={handleOnSuccess}/>
               </Suspense>
             </div>
           </div>

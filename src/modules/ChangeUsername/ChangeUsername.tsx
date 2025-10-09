@@ -2,16 +2,21 @@ import React, { useState } from "react";
 import "./ChangeUsername.css";
 import api from "../../services/baseURL";
 
-const ChangeUsername = () => {
+interface ChangeUsernameProps {
+  onSubmit?: () => void;
+}
+
+const ChangeUsername: React.FC<ChangeUsernameProps> = ({ onSubmit }) => {
   const [user, setUser] = useState(
     JSON.parse(sessionStorage.getItem("user") || "{}")
   );
   const [error, setError] = useState("");
 
-  const handleOnSubmitChange = async (e: React.FormEvent) => {
+  const handleOnSubmitChange = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
 
+    const form = e.currentTarget;
     try {
       const response = await api.patch("/me", { username: user });
 
@@ -19,15 +24,16 @@ const ChangeUsername = () => {
 
       if (updateUser) {
         sessionStorage.setItem("user", JSON.stringify(updateUser));
-
         setUser("");
-        window.location.reload();
+        onSubmit();
       } else {
         setError("Username didn't change");
       }
     } catch (err: any) {
       console.error("PATCH error:", err);
       setError(err.response?.data?.message || err.message || "Unknown error");
+
+      form.reset();
     }
   };
 

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 interface UserInfoProps {
   id?: string;
+  refresh?: number;
 }
 
 interface UserData {
@@ -27,7 +28,7 @@ interface UserStatistic {
   regularAnswerCount?: number;
 }
 
-const UserInfoCard: FC<UserInfoProps> = ({ id }) => {
+const UserInfoCard: FC<UserInfoProps> = ({ id, refresh }) => {
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [userData, setUserData] = useState<UserData>(
@@ -65,7 +66,7 @@ const UserInfoCard: FC<UserInfoProps> = ({ id }) => {
     };
 
     fetchData();
-  }, [id, userData.id]);
+  }, [id, userData.id, refresh]);
 
   const handleDelete = async () => {
     try {
