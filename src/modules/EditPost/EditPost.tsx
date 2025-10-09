@@ -8,10 +8,17 @@ interface EditPostProps {
   onClose: () => void;
   id: number;
   lang: string;
-  code: string
+  code: string;
+  onSuccess?: () => void;
 }
 
-const EditPost: React.FC<EditPostProps> = ({ onClose, id, lang, code}) => {
+const EditPost: React.FC<EditPostProps> = ({
+  onClose,
+  id,
+  lang,
+  code,
+  onSuccess,
+}) => {
   const [newCode, setCode] = useState(code);
   const [language, setLanguage] = useState(lang);
   const [languages, setLanguages] = useState<string[]>([]);
@@ -33,6 +40,7 @@ const EditPost: React.FC<EditPostProps> = ({ onClose, id, lang, code}) => {
         alert("Success");
         onClose();
         setError("");
+        onSuccess()
       }
     } catch (err: any) {
       console.error(err);

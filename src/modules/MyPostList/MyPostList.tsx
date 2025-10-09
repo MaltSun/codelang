@@ -6,9 +6,11 @@ import { EditPost } from "../EditPost";
 
 interface MyPostListProps {
   onClick?: () => void;
+    refresh?: number;
+    onEdit?:()=>void
 }
 
-const MyPostList: React.FC<MyPostListProps> = ({ onClick }) => {
+const MyPostList: React.FC<MyPostListProps> = ({ onClick, refresh, onEdit }) => {
   
   const [posts, setPosts] = useState<any[]>([]);
   const [page, setPage] = useState(1);
@@ -50,7 +52,7 @@ const MyPostList: React.FC<MyPostListProps> = ({ onClick }) => {
 
   useEffect(() => {
     fetchPosts(page);
-  }, [page, fetchPosts]);
+  }, [page, fetchPosts, refresh]);
 
   const normalizePosts = (posts: any[]) =>
     posts.map((post) => ({
@@ -97,6 +99,7 @@ const MyPostList: React.FC<MyPostListProps> = ({ onClick }) => {
             dislikesNumber={post.dislikesNumber}
             canEdit={true}
             openEdit={onClick}
+            onSuccess={onEdit}
           />
         ))
       ) : (

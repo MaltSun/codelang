@@ -3,3 +3,74 @@
     flex-direction: column;
     width: 100%;
 }
+
+.popup-container {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.276);
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgb(148, 148, 148);
+}
+.popup-body {
+  background: white;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 20px;
+  border-radius: 3px;
+    pointer-events: all;
+}
+.popup-body h2 {
+  text-transform: capitalize;
+  font-weight: 700;
+  line-height: 40px;
+}
+.popup-body input {
+  height: 40px;
+  font-size: 12px;
+  border: 1px solid rgb(148, 148, 148);
+  border-radius: 3px;
+  padding: 10px;
+}
+.popup-body input:hover {
+  border: 1px solid rgb(114, 114, 114);
+  cursor: pointer;
+}
+
+.popup-body p {
+  text-transform: capitalize;
+  font-size: 13px;
+  font-weight: 700px;
+}
+.popup-body button {
+  background: var(--base-color);
+  color: var(--text-color);
+  text-transform: uppercase;
+  border: none;
+  height: 30px;
+  border-radius: 3px;
+}
+.popup-body > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgb(148, 148, 148);
+}
+.popup-body button:hover {
+  cursor: pointer;
+  background: rgb(7, 91, 174);
+  transition: 0,4s ease;
+}
+.popup-body .monacoEditor {
+  z-index: 500 !important;
+}
+
+

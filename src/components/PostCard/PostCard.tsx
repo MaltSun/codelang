@@ -26,6 +26,7 @@ interface PostCardProps {
   canEdit?: boolean;
   openEdit?: () => void;
   mark?: "like" | "dislike" | null;
+   onSuccess?: () => void;
 }
 
 const PostCard: React.FC<PostCardProps> = React.memo(
@@ -39,6 +40,7 @@ const PostCard: React.FC<PostCardProps> = React.memo(
     commentsNumber,
     canEdit = false,
     mark = null,
+    onSuccess
   }) => {
     const navigate = useNavigate();
 
@@ -98,6 +100,7 @@ const PostCard: React.FC<PostCardProps> = React.memo(
               id={id}
               lang={language}
               code={code}
+              onSuccess={onSuccess}
             />
           </Suspense>
         )}
