@@ -2,9 +2,15 @@ import api from "../../services/baseURL";
 import Pagination from "../../components/Pagination/Pagination";
 import React, { Suspense, useCallback, useEffect, useState, lazy } from "react";
 
-const  QuestionCard = lazy(()=>import ("@/components/QuestionCard/QuestionCard")) ;
+const QuestionCard = lazy(
+  () => import("@/components/QuestionCard/QuestionCard")
+);
 
-const QuestionList = () => {
+interface QuestionListProps {
+  refresh?: number;
+  onEdit?: () => void;
+}
+const QuestionList: React.FC<QuestionListProps> = ({ refresh, onEdit }) => {
   const [questions, setQuestions] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -44,7 +50,7 @@ const QuestionList = () => {
 
   useEffect(() => {
     fetchPosts(page);
-  }, [page, fetchPosts]);
+  }, [page, refresh]);
 
   const normalizePosts = (posts: any[]) =>
     posts.map((post) => ({
@@ -86,6 +92,7 @@ const QuestionList = () => {
               title={question.title}
               description={question.description}
               username={question.user.username}
+              onSuccess={onEdit}
             />
           </Suspense>
         ))

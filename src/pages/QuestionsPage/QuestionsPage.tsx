@@ -8,13 +8,14 @@ const CreateQuestion = lazy(
 
 const QuestionsPage = () => {
   const [isOpen, setOpen] = useState(false);
+  const [refresh, setRefresh] = useState(0); 
 
-  const handleOpenQuestion = () => {
-    setOpen(true);
-  };
+  const handleOpenQuestion = () => setOpen(true);
+  const handleCloseQuestion = () => setOpen(false);
 
-  const handleCloseQuestion = () => {
-    setOpen(false);
+  const handleOnSuccess = () => {
+    setRefresh(prev => prev + 1); 
+    handleCloseQuestion(); 
   };
 
   return (
@@ -24,12 +25,13 @@ const QuestionsPage = () => {
         <SideBar activeItem="questions" />
         <div className="mainPart">
           {isOpen && (
-            <Suspense>
-              <CreateQuestion onClose={handleCloseQuestion} />
+            <Suspense fallback={<p>Loading...</p>}>
+              <CreateQuestion onClose={handleCloseQuestion} onSuccess={handleOnSuccess} />
             </Suspense>
           )}
-          <Suspense>
-            <QuestionList />
+
+          <Suspense fallback={<p>Loading questions...</p>}>
+            <QuestionList refresh={refresh} onEdit={handleOnSuccess}/>
           </Suspense>
         </div>
       </div>

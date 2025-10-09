@@ -8,6 +8,7 @@ interface QuestionCardProps {
   title: string;
   description: string;
   onClose?: () => void;
+  onSuccess?: () => void;
 }
 
 const EditQuestion: React.FC<QuestionCardProps> = ({
@@ -15,6 +16,7 @@ const EditQuestion: React.FC<QuestionCardProps> = ({
   title,
   description,
   onClose,
+  onSuccess,
 }) => {
   const [attachedCode, setAttachedCode] = useState("");
   const [newTitle, setTitle] = useState(title);
@@ -37,6 +39,7 @@ const EditQuestion: React.FC<QuestionCardProps> = ({
       if (response.data) {
         alert("Success");
         onClose();
+        onSuccess();
         setError("");
       }
     } catch (err: any) {
@@ -56,7 +59,7 @@ const EditQuestion: React.FC<QuestionCardProps> = ({
     <div className="popup-container">
       <form className="popup-body" onSubmit={handleEditPost}>
         <div className="popup-header">
-          <h2>Ask a question</h2>
+          <h2>Edit a question</h2>
           <span onClick={onClose} style={{ cursor: "pointer" }}>
             <CloseOutlinedIcon style={{ color: "blue" }} />
           </span>

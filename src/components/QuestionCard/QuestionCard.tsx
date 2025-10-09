@@ -1,23 +1,24 @@
-import React, { Suspense, useState,lazy, useCallback } from "react";
+import React, { Suspense, useState, lazy, useCallback } from "react";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import { Goal } from "../../ui";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import "./QuestionCard.css";
-const EditQuestion = lazy(()=>import("@/modules/EditQuestion/EditQuestion")) ;
+const EditQuestion = lazy(() => import("@/modules/EditQuestion/EditQuestion"));
 
 interface QuestionCardProps {
   id: number;
   title: string;
   description: string;
   username: string;
+  onSuccess: () => void;
 }
 
 const QuestionCard: React.FC<QuestionCardProps> = React.memo(
-  ({ id, title, description, username }) => {
+  ({ id, title, description, username, onSuccess }) => {
     const [isOpen, setOpen] = useState(false);
     const user = JSON.parse(sessionStorage.getItem("user")) || {};
 
-    const handleOpen =() => {
+    const handleOpen = () => {
       setOpen(true);
     };
 
@@ -26,7 +27,7 @@ const QuestionCard: React.FC<QuestionCardProps> = React.memo(
     };
 
     return (
-      <div key={id} className="questionCard">
+      <>
         {isOpen && (
           <Suspense>
             <EditQuestion
@@ -34,28 +35,31 @@ const QuestionCard: React.FC<QuestionCardProps> = React.memo(
               title={title}
               description={description}
               onClose={handleClose}
+              onSuccess={onSuccess}
             />
           </Suspense>
         )}
-        <div className="questionHeader">
-          <div>
-            <img src={Goal} alt="goal" />
+        <div key={id} className="questionCard">
+          <div className="questionHeader">
+            <div>
+              <img src={Goal} alt="goal" />
 
-            <span>
-              <h2>{title}</h2>
-              <p>asked by user: {username}</p>
-            </span>
+              <span>
+                <h2>{title}</h2>
+                <p>asked by user: {username}</p>
+              </span>
+            </div>
+
+            {username === user.username && (
+              <button onClick={handleOpen}>
+                <BorderColorOutlinedIcon />
+              </button>
+            )}
           </div>
-
-          {username === user.username && (
-            <button onClick={handleOpen}>
-              <BorderColorOutlinedIcon />
-            </button>
-          )}
+          <p className="description">{description}</p>
+          <RemoveRedEyeOutlinedIcon style={{ color: "blue" }} />
         </div>
-        <p className="description">{description}</p>
-        <RemoveRedEyeOutlinedIcon style={{ color: "blue" }} />
-      </div>
+      </>
     );
   }
 );

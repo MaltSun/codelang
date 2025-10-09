@@ -6,15 +6,23 @@ import MonacoEditor from "react-monaco-editor";
 
 interface CreateQuestionProps {
   onClose: () => void;
+  onSuccess: () => void;
 }
 
-const CreateQuestion: React.FC<CreateQuestionProps> = ({ onClose }) => {
+const CreateQuestion: React.FC<CreateQuestionProps> = ({
+  onClose,
+  onSuccess,
+}) => {
   const [code, setCode] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleAskQuestion = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
     try {
       const response = await api.post("/questions", {
         title,
@@ -24,14 +32,13 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({ onClose }) => {
 
       if (response.data) {
         alert("Success");
+        onSuccess();
         onClose();
       }
     } catch (err) {
       console.log(err);
     }
   };
-
-  
 
   const handleSetTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTitle(e.target.value);
@@ -70,6 +77,8 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({ onClose }) => {
           value={code}
         />
         <button type="submit">ask question</button>
+        {isLoading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
       </form>
     </div>
   );
