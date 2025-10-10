@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import "./UserCard.css";
 import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate } from "react-router-dom";
+import { AppRoutes } from "@/router";
 
 interface UserCardProps {
   id: number;
@@ -13,7 +14,7 @@ const UserCard: React.FC<UserCardProps> = React.memo(({ id, username, role }) =>
   const navigate = useNavigate();
 
 const handleNavigate=()=>{
-  navigate(`/user/${id}`, {})
+  navigate(AppRoutes.USER_ACC.replace(":id", String(id)), {})
 }
 
   return (

@@ -11,6 +11,7 @@ import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/baseURL";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import { AppRoutes } from "@/router";
 
 const EditPost = lazy(() => import("@/modules/EditPost/EditPost"));
 
@@ -138,7 +139,7 @@ const PostCard: React.FC<PostCardProps> = React.memo(
     };
 
     const handleNavigate = () => {
-      navigate("/post", {
+      navigate(AppRoutes.POST, {
         state: {
           id,
           username,

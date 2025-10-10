@@ -5,6 +5,7 @@ import { codelangLogo } from "../../ui";
 import "./UserInfoCard.css";
 import api from "../../services/baseURL";
 import { useNavigate } from "react-router-dom";
+import { AppRoutes } from "@/router";
 
 interface UserInfoProps {
   id?: string;
@@ -95,7 +96,7 @@ const UserInfoCard: FC<UserInfoProps> = ({ id, refresh }) => {
       const response = await api.delete(`/me`);
       if (response.data?.data) {
         sessionStorage.removeItem("user");
-        navigate("/");
+        navigate(AppRoutes.HOME);
       } else {
         setError("Failed to delete user");
       }
@@ -107,7 +108,7 @@ const UserInfoCard: FC<UserInfoProps> = ({ id, refresh }) => {
 
   const handleLogOut = () => {
     sessionStorage.removeItem("user");
-    navigate("/");
+    navigate(AppRoutes.HOME);
   };
 
   return (

@@ -3,6 +3,7 @@ import api from "../../services/baseURL";
 import React, { useState } from "react";
 import "./LoginForm.css";
 import { Button } from "../../components/Button";
+import { AppRoutes } from "@/router";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -45,7 +46,9 @@ const LoginForm = () => {
       );
     }
   };
-
+const handleNavigate=()=>{
+  navigate(AppRoutes.REG)
+}
   return (
     <div className="loginForm">
       <h1>Login</h1>
@@ -70,7 +73,7 @@ const LoginForm = () => {
         <div>
           <Button type="submit">Login</Button>
 
-          <Button type="button" onClick={() => navigate("/reg")}>
+          <Button type="button" onClick={handleNavigate}>
             Register
           </Button>
         </div>

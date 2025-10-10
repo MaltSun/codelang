@@ -9,6 +9,8 @@ import SnippetFolderIcon from "@mui/icons-material/SnippetFolder";
 import { codelangLogo } from "../../ui";
 import { useNavigate } from "react-router-dom";
 
+import { AppRoutes } from "@/router";
+
 interface SideBarProps {
   activeItem: string;
 }
@@ -28,50 +30,49 @@ const SideBar: React.FC<SideBarProps> = ({ activeItem }) => {
     <div className="sideBar">
       {user.username && (
         <>
-        <div onClick={() => navigate("/account")} className="profileSideBar">
-          <img src={codelangLogo} alt="codelang logo" />
-          <span>{user.username}</span>
-        </div>
-        <hr />
+          <div onClick={() => navigate(AppRoutes.ACCOUNT)} className="profileSideBar">
+            <img src={codelangLogo} alt="codelang logo" />
+            <span>{user.username}</span>
+          </div>
+          <hr />
         </>
       )}
 
-      
       <div>
         <SideBarItem
           active={addActive("home")}
-          destinition="/"
+          destinition={AppRoutes.HOME}
           text={"Home"}
           icon={<HomeIcon></HomeIcon>}
         ></SideBarItem>
         <SideBarItem
           active={addActive("account")}
-          destinition="/account"
+          destinition={AppRoutes.ACCOUNT}
           text={"My Account"}
           icon={<AccountBoxIcon></AccountBoxIcon>}
         ></SideBarItem>
         <SideBarItem
           active={addActive("snippets")}
-          destinition="/snippet"
+          destinition={AppRoutes.SNIPPET}
           text={"Post snippet"}
           icon={<SnippetFolderIcon></SnippetFolderIcon>}
         ></SideBarItem>
         <SideBarItem
           active={addActive("mySnippets")}
-          destinition="/myPost"
+          destinition={AppRoutes.MY_SNIPPETS}
           text={"My snippets"}
           icon={<SnippetFolderIcon></SnippetFolderIcon>}
         ></SideBarItem>
         <SideBarItem
           active={addActive("questions")}
-          destinition="/question"
+          destinition={AppRoutes.QUESTIONS}
           text={"Questions"}
           icon={<PsychologyAltIcon></PsychologyAltIcon>}
         ></SideBarItem>
         <SideBarItem
           active={addActive("users")}
           text={"Users"}
-          destinition="/users"
+          destinition={AppRoutes.USERS}
           icon={<GroupIcon></GroupIcon>}
         ></SideBarItem>
       </div>

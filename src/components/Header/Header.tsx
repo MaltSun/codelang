@@ -2,6 +2,7 @@ import React, { lazy, Suspense, useState } from "react";
 import "./Header.css";
 import { TranslateIcon, codelangLogo } from "../../ui";
 import { useNavigate } from "react-router-dom";
+import { AppRoutes } from "@/router";
 
 const Button = lazy(() => import("../Button/Button"));
 
@@ -23,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ askQuestion = false, onClick }) => {
 
   const handleLogOut = () => {
     sessionStorage.removeItem("user");
-    navigate("/");
+    navigate(AppRoutes.HOME);
   };
 
   return (

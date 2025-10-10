@@ -3,6 +3,7 @@ import "./RegistrationForm.css";
 import { Button } from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/baseURL";
+import { AppRoutes } from "@/router";
 
 const RegistrationForm = () => {
   const [username, setUsername] = useState("");
@@ -38,14 +39,14 @@ const RegistrationForm = () => {
 
       if (user) {
         setSuccess("Registration successful!");
-      
+
         navigate("/login");
       } else {
         setError("Registration failed. Please try again.");
       }
     } catch (err: any) {
       if (err.response) {
-        console.error("Server error:", err.response.data); 
+        console.error("Server error:", err.response.data);
         setError(
           `Error ${err.response.status}: ${
             err.response.data.message || "Registration failed"
@@ -55,6 +56,10 @@ const RegistrationForm = () => {
         setError("Network error. Please try again later.");
       }
     }
+  };
+
+  const handleNavigate = () => {
+    navigate(AppRoutes.LOGIN);
   };
 
   return (
@@ -90,7 +95,7 @@ const RegistrationForm = () => {
 
         <div>
           <Button type="submit">Register</Button>
-          <Button type="button" onClick={() => navigate("/login")}>
+          <Button type="button" onClick={handleNavigate}>
             Have an account
           </Button>
         </div>

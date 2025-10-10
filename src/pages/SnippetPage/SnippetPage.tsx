@@ -5,6 +5,7 @@ import MonacoEditor from "react-monaco-editor";
 import "./SnippetPage.css";
 import api from "../../services/baseURL";
 import { useNavigate } from "react-router-dom";
+import { AppRoutes } from "@/router";
 
 const CreatePostPage = () => {
   const [language, setLanguage] = useState("JavaScript");
@@ -26,7 +27,7 @@ const CreatePostPage = () => {
         alert("Snippet created successfully!");
         setCode("");
         setError("");
-        navigate("/myPost")
+        navigate(AppRoutes.MY_SNIPPETS)
       } else {
         setError("Snippet wasn't created");
       }
@@ -85,6 +86,7 @@ const CreatePostPage = () => {
                   {lang}
                 </option>
               ))}
+              
             </select>
           </div>
 

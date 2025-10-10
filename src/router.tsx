@@ -13,13 +13,26 @@ import { MyPostPage } from "./pages/MyPostPage";
 import { QuestionsPage } from "./pages/QuestionsPage";
 import { UserProfilePage } from "./pages/UserProfilePage";
 
+export enum AppRoutes {
+  HOME = "/",
+  ACCOUNT = "/account",
+  SNIPPET = "/snippet",
+  MY_SNIPPETS = "/myPost",
+  QUESTIONS = "/question",
+  USERS = "/users",
+  LOGIN = "/login",
+  REG = "/reg",
+  POST = "/post",
+  USER_ACC= "/user/:id"
+}
+
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: AppRoutes.HOME,
     element: <HomePage />,
   },
   {
-    path: "/account",
+    path: AppRoutes.ACCOUNT,
     element: (
       <ProtectedRoute>
         <AccountPage />
@@ -27,15 +40,15 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/login",
+    path: AppRoutes.LOGIN,
     element: (
-      <ProtectedRoute >
+      <ProtectedRoute>
         <LoginPage />
       </ProtectedRoute>
     ),
   },
   {
-    path: "/reg",
+    path: AppRoutes.REG,
     element: (
       <ProtectedRoute>
         <RegisterPage />
@@ -43,7 +56,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/post",
+    path: AppRoutes.POST,
     element: (
       <ProtectedRoute>
         <PostPage />
@@ -51,7 +64,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/snippet",
+    path: AppRoutes.SNIPPET,
     element: (
       <ProtectedRoute>
         <CreatePostPage />
@@ -59,11 +72,11 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/users",
+    path: AppRoutes.USERS,
     element: <UsersPage />,
   },
   {
-    path: "/myPost",
+    path: AppRoutes.MY_SNIPPETS,
     element: (
       <ProtectedRoute>
         <MyPostPage />
@@ -71,11 +84,11 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/question",
+    path: AppRoutes.QUESTIONS,
     element: <QuestionsPage />,
   },
   {
-    path: "/user/:id",
+    path: AppRoutes.USER_ACC,
     element: <UserProfilePage />,
   },
   {
