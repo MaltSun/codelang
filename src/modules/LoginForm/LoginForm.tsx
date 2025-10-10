@@ -4,12 +4,14 @@ import React, { useState } from "react";
 import "./LoginForm.css";
 import { Button } from "../../components/Button";
 import { AppRoutes } from "@/router";
+import { useTranslation } from "react-i18next";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+   const { t, i18n } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -51,9 +53,9 @@ const handleNavigate=()=>{
 }
   return (
     <div className="loginForm">
-      <h1>Login</h1>
+      <h1>{t("login")}</h1>
       <form onSubmit={handleSubmit}>
-        <label>Username</label>
+        <label>{t("username")}</label>
         <input
           type="text"
           name="username"
@@ -61,7 +63,7 @@ const handleNavigate=()=>{
           placeholder="Enter your username"
           onChange={(e) => setUsername(e.target.value)}
         />
-        <label htmlFor="">Password</label>
+        <label htmlFor="">{t("password")}</label>
         <input
           type="password"
           name="password"
@@ -71,10 +73,10 @@ const handleNavigate=()=>{
           required
         />
         <div>
-          <Button type="submit">Login</Button>
+          <Button type="submit">{t("login")}</Button>
 
           <Button type="button" onClick={handleNavigate}>
-            Register
+            {t("reg")}
           </Button>
         </div>
       </form>

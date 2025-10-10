@@ -1,8 +1,9 @@
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useState, useEffect } from "react";
 import "./Header.css";
 import { TranslateIcon, codelangLogo } from "../../ui";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "@/router";
+import { useTranslation } from "react-i18next";
 
 const Button = lazy(() => import("../Button/Button"));
 
@@ -13,17 +14,28 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ askQuestion = false, onClick }) => {
-  const [lang, setLang] = useState("en");
-  const [isLoged, setLogIn] = useState(sessionStorage.getItem("user"));
+  const storedLang = sessionStorage.getItem("lang") || "en";
+  const [lang, setLang] = useState(storedLang);
+  const [isLoged, setLogIn] = useState(!!sessionStorage.getItem("user"));
+  const { t, i18n } = useTranslation();
 
   const navigate = useNavigate();
 
-  const handleLanguage = () => {
-    setLang(lang === "en" ? "ru" : "en");
-  };
+  useEffect(() => {
+    i18n.changeLanguage(lang);
+  }, [i18n, lang]);
+
+const handleLanguage = () => {
+  const newLang = lang === "en" ? "ru" : "en";
+  setLang(newLang);
+  sessionStorage.setItem("lang", newLang);
+  i18n.changeLanguage(newLang);
+};
+
 
   const handleLogOut = () => {
     sessionStorage.removeItem("user");
+    setLogIn(false);
     navigate(AppRoutes.HOME);
   };
 
@@ -34,18 +46,17 @@ const Header: React.FC<HeaderProps> = ({ askQuestion = false, onClick }) => {
         <span>codelang</span>
       </div>
       <div>
-        {" "}
         <Suspense>
           {isLoged &&
             (askQuestion ? (
-              <Button onClick={onClick}>ask question</Button>
+              <Button onClick={onClick}>{t("ask_question")}</Button>
             ) : (
-              <Button onClick={handleLogOut}>sign out</Button>
+              <Button onClick={handleLogOut}>{t("sign_out")}</Button>
             ))}
         </Suspense>
         <Button onClick={handleLanguage}>
           <img src={TranslateIcon} alt="translator" />
-          <span>{lang}</span>
+          <span>{lang.toUpperCase()}</span>
         </Button>
       </div>
     </div>

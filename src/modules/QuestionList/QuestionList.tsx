@@ -1,6 +1,7 @@
 import api from "../../services/baseURL";
 import Pagination from "../../components/Pagination/Pagination";
 import React, { Suspense, useCallback, useEffect, useState, lazy } from "react";
+import { useTranslation } from "react-i18next";
 
 const QuestionCard = lazy(
   () => import("@/components/QuestionCard/QuestionCard")
@@ -16,6 +17,7 @@ const QuestionList: React.FC<QuestionListProps> = ({ refresh, onEdit }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+   const { t, i18n } = useTranslation();
 
   const fetchPosts = useCallback(async (page: number) => {
     try {
@@ -70,7 +72,7 @@ const QuestionList: React.FC<QuestionListProps> = ({ refresh, onEdit }) => {
     setPage((prev) => (prev > 1 ? prev - 1 : prev));
   }, []);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <p>{t("loading")}</p>;
   if (error) return <p>{error}</p>;
 
   return (

@@ -5,6 +5,7 @@ import { SideBar } from "../../modules/SideBar";
 import { PostCard } from "../../components/PostCard";
 import api from "../../services/baseURL";
 import WriteComment from "../../modules/WriteComment/WriteComment";
+import { useTranslation } from "react-i18next";
 
 const CommentCard = lazy(
   () => import("../../components/CommentCard/CommentCard")
@@ -25,6 +26,7 @@ const PostPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentPost, setPost] = useState<any[]>([]);
   const [refresh, setRefresh] = useState(0);
+  const { t, i18n } = useTranslation();
 
   const handleOnSuccess = () => {
     setRefresh((prev) => prev + 1);
@@ -68,7 +70,7 @@ const PostPage: React.FC = () => {
     return <p>No post data</p>;
   }
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <p>{t("loading")}</p>;
   if (error) return <p>{error}</p>;
 
   return (

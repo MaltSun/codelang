@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./ChangeUsername.css";
 import api from "../../services/baseURL";
+import { useTranslation } from "react-i18next";
 
 interface ChangeUsernameProps {
   onSubmit?: () => void;
@@ -11,6 +12,7 @@ const ChangeUsername: React.FC<ChangeUsernameProps> = ({ onSubmit }) => {
     JSON.parse(sessionStorage.getItem("user") || "{}")
   );
   const [error, setError] = useState("");
+  const { t, i18n } = useTranslation();
 
   const handleOnSubmitChange = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,13 +45,13 @@ const ChangeUsername: React.FC<ChangeUsernameProps> = ({ onSubmit }) => {
 
   return (
     <form className="changeUsername" onSubmit={handleOnSubmitChange}>
-      <label>Change your username:</label>
+      <label>{t("change_username")}:</label>
       <input
         type="text"
         placeholder="New username"
         onChange={handleChangeUsername}
       />
-      <button type="submit">save</button>
+      <button type="submit">{t("save")}</button>
       {error && <p style={{ color: "red" }}>{error}</p>}
     </form>
   );

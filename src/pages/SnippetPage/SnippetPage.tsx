@@ -6,6 +6,7 @@ import "./SnippetPage.css";
 import api from "../../services/baseURL";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "@/router";
+import { useTranslation } from "react-i18next";
 
 const CreatePostPage = () => {
   const [language, setLanguage] = useState("JavaScript");
@@ -15,6 +16,8 @@ const CreatePostPage = () => {
   const [code, setCode] = useState("");
 
   const navigate = useNavigate();
+
+  const { t, i18n } = useTranslation();
 
   const handleWriteComment = async () => {
     setLoading(true);
@@ -27,7 +30,7 @@ const CreatePostPage = () => {
         alert("Snippet created successfully!");
         setCode("");
         setError("");
-        navigate(AppRoutes.MY_SNIPPETS)
+        navigate(AppRoutes.MY_SNIPPETS);
       } else {
         setError("Snippet wasn't created");
       }
@@ -46,7 +49,6 @@ const CreatePostPage = () => {
 
       if (snippetLanguage && Array.isArray(snippetLanguage.data)) {
         setLanguages(snippetLanguage.data);
-      
       } else {
         setError("Invalid language data received");
       }
@@ -70,12 +72,12 @@ const CreatePostPage = () => {
       <div className="main">
         <SideBar activeItem="snippets" />
         <div className="mainPart snippets">
-          <h1>Create new snippet!</h1>
+          <h1>{t("create_snipp")}!</h1>
           <div className="chooseLanguage">
             <p>
-              <b>Language of your snippet:</b>
+              <b>{t("lang_your_snipp")}:</b>
             </p>
-            <label htmlFor="">Select</label>
+            <label htmlFor="">{t("select")}</label>
             <select
               value={language}
               onChange={handleSetLanguage}
@@ -86,13 +88,12 @@ const CreatePostPage = () => {
                   {lang}
                 </option>
               ))}
-              
             </select>
           </div>
 
           <div className="writeSnippet">
             <p>
-              <b>Code of your snippet:</b>
+              <b>{t("code_your_snipp")}:</b>
             </p>
             <div style={{ border: "2px solid var(--accent-color)" }}>
               <MonacoEditor
@@ -107,10 +108,10 @@ const CreatePostPage = () => {
           </div>
 
           {isLoading ? (
-            <button id="createSnippet">Loading...</button>
+            <button id="createSnippet">{t("loading")}</button>
           ) : (
             <button id="createSnippet" onClick={handleWriteComment}>
-              Create snippet
+              {t("create_snipp")}
             </button>
           )}
 

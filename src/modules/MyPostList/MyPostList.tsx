@@ -3,6 +3,7 @@ import api from "../../services/baseURL";
 import { PostCard } from "../../components/PostCard";
 import { Pagination } from "../../components/Pagination";
 import { EditPost } from "../EditPost";
+import { useTranslation } from "react-i18next";
 
 interface MyPostListProps {
   onClick?: () => void;
@@ -21,6 +22,7 @@ const MyPostList: React.FC<MyPostListProps> = ({
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const userId = JSON.parse(sessionStorage.getItem("user")).id;
+  const { t, i18n } = useTranslation();
 
   const fetchPosts = useCallback(async (page: number) => {
     try {
@@ -55,7 +57,6 @@ const MyPostList: React.FC<MyPostListProps> = ({
 
   useEffect(() => {
     fetchPosts(page);
-  
   }, [page, fetchPosts, refresh]);
 
   const normalizePosts = (posts: any[]) =>
@@ -78,7 +79,7 @@ const MyPostList: React.FC<MyPostListProps> = ({
     setPage((prev) => (prev > 1 ? prev - 1 : prev));
   }, []);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <p>{t("loading")}</p>;
   if (error) return <p>{error}</p>;
 
   return (

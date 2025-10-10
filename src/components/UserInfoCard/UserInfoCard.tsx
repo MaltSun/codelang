@@ -6,6 +6,7 @@ import "./UserInfoCard.css";
 import api from "../../services/baseURL";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "@/router";
+import { useTranslation } from "react-i18next";
 
 interface UserInfoProps {
   id?: string;
@@ -45,8 +46,11 @@ const UserInfoCard: FC<UserInfoProps> = ({ id, refresh }) => {
     correctAnswerCount: 0,
     regularAnswerCount: 0,
   });
+   const { t, i18n } = useTranslation();
+    
+    const navigate = useNavigate();
+  
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -114,7 +118,7 @@ const UserInfoCard: FC<UserInfoProps> = ({ id, refresh }) => {
   return (
     <div className="userInformation">
       {isLoading ? (
-        <h1>Loading...</h1>
+        <h1>{t("loading")}</h1>
       ) : (
         <>
           <div>
@@ -136,14 +140,14 @@ const UserInfoCard: FC<UserInfoProps> = ({ id, refresh }) => {
             </div>
           </div>
           <div>
-          <p>Rating: {statistic.rating}</p>
-            <p>Snippets: {statistic.snippetsCount}</p>
-            <p>Comments: {statistic.commentCount}</p>
-            <p>Likes: {statistic.likesCount}</p>
-            <p>Dislikes: {statistic.dislikesCount}</p>
-            <p>Questions: {statistic.questionsCount}</p>
-            <p>Correct Answer: {statistic.correctAnswerCount}</p>
-            <p>Regular Answer: {statistic.regularAnswerCount}</p>
+          <p>{t("rating")}: {statistic.rating}</p>
+            <p>{t("snippets")}: {statistic.snippetsCount}</p>
+            <p>{t("comments")}: {statistic.commentCount}</p>
+            <p>{t("likes")}: {statistic.likesCount}</p>
+            <p>{t("dislikes")}: {statistic.dislikesCount}</p>
+            <p>{t("questions")}: {statistic.questionsCount}</p>
+            <p>{t("corr_answer")}: {statistic.correctAnswerCount}</p>
+            <p>{t("reg_answer")}: {statistic.regularAnswerCount}</p>
           </div>
 
           {error && <p style={{ color: "red" }}>{error}</p>}

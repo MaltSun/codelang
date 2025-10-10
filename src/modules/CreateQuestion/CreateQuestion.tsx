@@ -3,6 +3,7 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import "./CreateQuestion.css";
 import api from "../../services/baseURL";
 import MonacoEditor from "react-monaco-editor";
+import { useTranslation } from "react-i18next";
 
 interface CreateQuestionProps {
   onClose: () => void;
@@ -18,6 +19,7 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
   const [description, setDescription] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t, i18n } = useTranslation();
 
   const handleAskQuestion = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,7 +51,7 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
     <div className="popup-container">
       <form className="popup-body" onSubmit={handleAskQuestion}>
         <div className="popup-header">
-          <h2>Ask a question</h2>
+          <h2>{t("ask_question")}</h2>
           <span onClick={onClose} style={{ cursor: "pointer" }}>
             <CloseOutlinedIcon style={{ color: "blue" }} />
           </span>
@@ -76,8 +78,8 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
           onChange={setCode}
           value={code}
         />
-        <button type="submit">ask question</button>
-        {isLoading && <p>Loading...</p>}
+        <button type="submit">{t("ask_question")}</button>
+        {isLoading && <p>{t("loading")}</p>}
         {error && <p>{error}</p>}
       </form>
     </div>

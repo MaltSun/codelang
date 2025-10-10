@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import api from "../../services/baseURL";
 import React, { useState, useEffect, useCallback, Suspense, lazy } from "react";
 
@@ -16,6 +17,8 @@ const UsersList = () => {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  const { t, i18n } = useTranslation();
 
   const USERS_PER_PAGE = 10;
 
@@ -46,7 +49,7 @@ const UsersList = () => {
     setPage((prev) => (prev > 1 ? prev - 1 : prev));
   }, []);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <p>{t("loading")}</p>;
   if (error) return <p>{error}</p>;
 
   const startIndex = (page - 1) * USERS_PER_PAGE;

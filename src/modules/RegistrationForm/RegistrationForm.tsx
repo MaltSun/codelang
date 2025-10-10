@@ -4,6 +4,7 @@ import { Button } from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/baseURL";
 import { AppRoutes } from "@/router";
+import { useTranslation } from "react-i18next";
 
 const RegistrationForm = () => {
   const [username, setUsername] = useState("");
@@ -11,6 +12,7 @@ const RegistrationForm = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+   const { t, i18n } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -64,9 +66,9 @@ const RegistrationForm = () => {
 
   return (
     <div className="regForm">
-      <h1>Register</h1>
+      <h1>{t("reg")}</h1>
       <form onSubmit={handleSubmit}>
-        <label>Username</label>
+        <label>{t("username")}</label>
         <input
           type="text"
           value={username}
@@ -75,7 +77,7 @@ const RegistrationForm = () => {
           required
         />
 
-        <label>Password</label>
+        <label>{t("password")}</label>
         <input
           type="password"
           value={password}
@@ -84,7 +86,7 @@ const RegistrationForm = () => {
           required
         />
 
-        <label>Confirm Password</label>
+        <label>{t("conf_password")}</label>
         <input
           type="password"
           value={confirmPassword}
@@ -94,9 +96,9 @@ const RegistrationForm = () => {
         />
 
         <div>
-          <Button type="submit">Register</Button>
+          <Button type="submit">{t("reg")}</Button>
           <Button type="button" onClick={handleNavigate}>
-            Have an account
+           {t("have_acc")}
           </Button>
         </div>
       </form>

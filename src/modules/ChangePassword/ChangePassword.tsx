@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import api from "../../services/baseURL";
 import React, { useState } from "react";
 
@@ -11,12 +12,13 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ onSubmit }) => {
   const [confirmPass, setConfirmPassword] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t, i18n } = useTranslation();
 
   const handleValidation = (): boolean => {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
-    if (!oldPass) return false; 
+    if (!oldPass) return false;
     if (newPass !== confirmPass) return false;
-    if (!passwordRegex.test(newPass)) return false; 
+    if (!passwordRegex.test(newPass)) return false;
     return true;
   };
 
@@ -71,7 +73,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ onSubmit }) => {
   return (
     <>
       <form className="changeUsername" onSubmit={handleOnSubmit}>
-        <label>Change your password:</label>
+        <label>{t("change_your_pass")}:</label>
         <input
           type="password"
           placeholder="Old password"
@@ -87,8 +89,8 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ onSubmit }) => {
           placeholder="Confirm password"
           onChange={handleConfirmPassword}
         />
-        <button type="submit">Change password</button>
-        {isLoading && <p>Loading...</p>}
+        <button type="submit">{t("change_pass")}</button>
+        {isLoading && <p>{t("loading")}</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
     </>

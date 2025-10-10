@@ -21,9 +21,9 @@ export function buildPlugins({ mode, platform, paths, analyzer }: BuildOptions):
         new DefinePlugin({
             __PLATFORM__: JSON.stringify(platform)
         }),
-        new MonacoWebpackPlugin({
-            languages: ['json']
-        })
+       new MonacoWebpackPlugin({
+    languages: ["javascript", "typescript", "css", "html", "json"]
+  }),
 
     ]
 

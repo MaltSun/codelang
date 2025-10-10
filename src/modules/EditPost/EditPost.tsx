@@ -3,6 +3,7 @@ import MonacoEditor from "react-monaco-editor";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import api from "@/services/baseURL";
 import "./EditPost.css";
+import { useTranslation } from "react-i18next";
 
 interface EditPostProps {
   onClose: () => void;
@@ -24,6 +25,7 @@ const EditPost: React.FC<EditPostProps> = ({
   const [languages, setLanguages] = useState<string[]>([]);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { t, i18n } = useTranslation();
 
   const handleEditPost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,7 +42,7 @@ const EditPost: React.FC<EditPostProps> = ({
         alert("Success");
         onClose();
         setError("");
-        onSuccess()
+        onSuccess();
       }
     } catch (err: any) {
       console.error(err);
@@ -86,9 +88,9 @@ const EditPost: React.FC<EditPostProps> = ({
 
         <div className="chooseLanguage">
           <p>
-            <b>Language of your snippet:</b>
+            <b>{t("lang_your_snipp")}:</b>
           </p>
-          <label htmlFor="">Select</label>
+          <label htmlFor="">{t("select")}</label>
           <select
             value={language}
             onChange={handleSetLanguage}
@@ -102,7 +104,7 @@ const EditPost: React.FC<EditPostProps> = ({
           </select>
         </div>
 
-        <p>Edite Code</p>
+        <p>{t("edit_code")}</p>
         <MonacoEditor
           width="100%"
           height="200px"
@@ -112,8 +114,8 @@ const EditPost: React.FC<EditPostProps> = ({
           onChange={setCode}
           value={newCode}
         />
-        <button type="submit">save</button>
-        {isLoading && <p>Loading...</p>}
+        <button type="submit">{t("save")}</button>
+        {isLoading && <p>{t("loading")}</p>}
         {error && <p>{error}</p>}
       </form>
     </div>

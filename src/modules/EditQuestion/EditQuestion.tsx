@@ -2,6 +2,7 @@ import api from "@/services/baseURL";
 import React, { useState } from "react";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import MonacoEditor from "react-monaco-editor";
+import { useTranslation } from "react-i18next";
 
 interface QuestionCardProps {
   id: number;
@@ -23,6 +24,7 @@ const EditQuestion: React.FC<QuestionCardProps> = ({
   const [newDescription, setDescription] = useState(description);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { t, i18n } = useTranslation();
 
   const handleEditPost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -59,7 +61,7 @@ const EditQuestion: React.FC<QuestionCardProps> = ({
     <div className="popup-container">
       <form className="popup-body" onSubmit={handleEditPost}>
         <div className="popup-header">
-          <h2>Edit a question</h2>
+          <h2>{t("edit_question")}</h2>
           <span onClick={onClose} style={{ cursor: "pointer" }}>
             <CloseOutlinedIcon style={{ color: "blue" }} />
           </span>
@@ -78,7 +80,7 @@ const EditQuestion: React.FC<QuestionCardProps> = ({
           value={newDescription}
         />
 
-        <p>Attached Code</p>
+        <p>{t("attach_code")}</p>
         <MonacoEditor
           width="100%"
           height="200px"
@@ -88,8 +90,8 @@ const EditQuestion: React.FC<QuestionCardProps> = ({
           onChange={setAttachedCode}
           value={attachedCode}
         />
-        <button type="submit">save</button>
-        {isLoading && <p>Loading...</p>}
+        <button type="submit">{t("save")}</button>
+        {isLoading && <p>{t("loading")}</p>}
         {error && <p>{error}</p>}
       </form>
     </div>
