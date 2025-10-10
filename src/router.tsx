@@ -21,7 +21,7 @@ const router = createBrowserRouter([
   {
     path: "/account",
     element: (
-      <ProtectedRoute requireAuth>
+      <ProtectedRoute>
         <AccountPage />
       </ProtectedRoute>
     ),
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: (
-      <ProtectedRoute requireAuth={false}>
+      <ProtectedRoute >
         <LoginPage />
       </ProtectedRoute>
     ),
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
   {
     path: "/reg",
     element: (
-      <ProtectedRoute requireAuth={false}>
+      <ProtectedRoute>
         <RegisterPage />
       </ProtectedRoute>
     ),
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
   {
     path: "/post",
     element: (
-      <ProtectedRoute requireAuth>
+      <ProtectedRoute>
         <PostPage />
       </ProtectedRoute>
     ),
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
   {
     path: "/snippet",
     element: (
-      <ProtectedRoute requireAuth>
+      <ProtectedRoute>
         <CreatePostPage />
       </ProtectedRoute>
     ),
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
   {
     path: "/myPost",
     element: (
-      <ProtectedRoute requireAuth>
+      <ProtectedRoute>
         <MyPostPage />
       </ProtectedRoute>
     ),
@@ -80,7 +80,7 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <h1>Something went wrong :(</h1>,
+    element: <h1>Something went wrong</h1>,
   },
 ]);
 
