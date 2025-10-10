@@ -5,13 +5,19 @@
   margin-top: 10px;
   height: 40px;
   width: 100%;
+  background: none;
+  border: none;
+  color: white;
+  font-family: var(--font-family);
+  font-size: 12px;
+  letter-spacing: 3px;
 }
 .sideBarItem:hover,
 .sideBarItem.active {
-  background: rgba(76, 143, 224, 0.68);
+  background: var(--hover-color);
   transition: 0.4s ease;
   border-radius: 3px;
 }
 .sideBarItem.active {
-  background: rgba(84, 147, 224, 0.68);
+  background: var(--active-color);
 }

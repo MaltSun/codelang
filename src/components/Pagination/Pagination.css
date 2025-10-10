@@ -1,0 +1,36 @@
+.pagination button {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  font-size: 16px;
+  color: var(--base-color)
+}
+.pagination button:hover {
+  transition: 0.4s ease;
+  color: rgb(3, 83, 174);
+  cursor: pointer;
+}
+.pagination button:active {
+  transition: 0.4s ease;
+ color: rgb(2, 52, 109);
+}
+
+.pagination span {
+  border-radius: 5px;
+  background-color: var(--accent-color);
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.pagination {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.pagination button[disabled] {
+  color: rgb(172, 172, 172);
+  cursor:not-allowed;
+}

@@ -1,0 +1,54 @@
+.userInformation {
+  border: 1px solid grey;
+  border-radius: 10px;
+  width: 100%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+
+  gap: 50px;
+}
+.userInformation img {
+  width: 200px;
+  height: 200px;
+  border-radius: 100px;
+}
+
+.userAccOper button {
+  width: 70px;
+  height: 30px;
+  margin: 20px 10px;
+}
+.userInformation div:first-child {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 120px;
+  width: 100%;
+}
+.userInfo b {
+  font-size: 18px;
+}
+
+#deleteButton {
+  background: rgb(177, 37, 37);
+}
+#logoutButton {
+  background: rgb(248, 150, 4);
+}
+#deleteButton, #logoutButton {
+  border: none;
+  border-radius:3px;
+  box-shadow: 2px 3px var(--shadow-color);
+  color: white;
+
+}
+#deleteButton:hover, #logoutButton:hover {
+ opacity: 0.7;
+ transition: 0.4s ease;
+}
+#deleteButton:active, #logoutButton:active {
+ opacity: 0.9;
+ transition: 0.4s ease;
+}

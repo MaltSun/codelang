@@ -1,18 +1,33 @@
 import React from "react";
 import "./SideBarItem.css";
+import { useNavigate } from "react-router-dom";
 
-interface SideBarItem {
+interface SideBarItemProps {
   text: string;
   icon: React.ReactNode;
+  active?: boolean;
+  destinition?: string;
 }
 
-const SideBarIte: React.FC<SideBarItem> = ({ text, icon }) => {
+const SideBarItem: React.FC<SideBarItemProps> = ({
+  text,
+  icon,
+  active = false,
+  destinition,
+}) => {
+  const className = `sideBarItem ${active ? "active" : ""}`.trim();
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate(destinition);
+  };
+
   return (
-    <div className="sideBarItem">
+    <button onClick={handleNavigate} className={className}>
       {icon}
       <span>{text}</span>
-    </div>
+    </button>
   );
 };
 
-export default SideBarIte;
+export default SideBarItem;

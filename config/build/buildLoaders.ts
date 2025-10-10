@@ -3,7 +3,7 @@ import { BuildOptions } from "./types/types";
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
 import { before } from "node:test";
 import ReactRefreshTypeScript from 'react-refresh-typescript'
-import { buildBabelLoader } from "./babel/buildBabelLoader";
+
 export function buildLoaders(options: BuildOptions): ModuleOptions['rules'] {
     const isDev = options.mode === 'development'
 
@@ -42,27 +42,17 @@ export function buildLoaders(options: BuildOptions): ModuleOptions['rules'] {
         use: [{ loader: '@svgr/webpack', options: { icon: true } }],
     }
 
-    const scssLoader = {
-        test: /\.s[ac]ss$/i,
-        use: [
-            //"style-loader",
-            isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+    const cssLoader = {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+        include: /src|node_modules/, }
 
-            // Translates CSS into CommonJS
-            cssLoaderWithModules,
 
-            // Compiles Sass to CSS
-            "sass-loader",
-        ],
-    }
-
-    const babelLoader = buildBabelLoader(options)
 
     return [
         svgLoader,
         assetsLoader,
-        scssLoader,
+        cssLoader,
         tsLoader
-        // babelLoader
     ]
 }

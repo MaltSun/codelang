@@ -7,36 +7,76 @@ import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
 import GroupIcon from "@mui/icons-material/Group";
 import SnippetFolderIcon from "@mui/icons-material/SnippetFolder";
 import { codelangLogo } from "../../ui";
+import { useNavigate } from "react-router-dom";
 
-const SideBar = () => {
+import { AppRoutes } from "@/router";
+import { useTranslation } from "react-i18next";
+
+interface SideBarProps {
+  activeItem: string;
+}
+
+const SideBar: React.FC<SideBarProps> = ({ activeItem }) => {
+  const addActive = (id: string) => {
+    if (activeItem === id) {
+      return true;
+    } else return false;
+  };
+  const { t, i18n } = useTranslation();
+  const user = JSON.parse(sessionStorage.getItem("user")) || {};
+
+  const navigate = useNavigate();
+
   return (
     <div className="sideBar">
-      <div className="profileSideBar">
-        <img src={codelangLogo} alt="codelang logo" />
-        <span>user name</span>
-        <span></span>
-      </div>
-      <hr />
+      {user.username && (
+        <>
+          <div
+            onClick={() => navigate(AppRoutes.ACCOUNT)}
+            className="profileSideBar"
+          >
+            <img src={codelangLogo} alt="codelang logo" />
+            <span>{user.username}</span>
+          </div>
+          <hr />
+        </>
+      )}
+
       <div>
-        <SideBarItem text={"Home"} icon={<HomeIcon></HomeIcon>}></SideBarItem>
         <SideBarItem
-          text={"My Account"}
+          active={addActive("home")}
+          destinition={AppRoutes.HOME}
+          text={t("home")}
+          icon={<HomeIcon></HomeIcon>}
+        ></SideBarItem>
+        <SideBarItem
+          active={addActive("account")}
+          destinition={AppRoutes.ACCOUNT}
+          text={t("my_acc")}
           icon={<AccountBoxIcon></AccountBoxIcon>}
         ></SideBarItem>
         <SideBarItem
-          text={"Post snippet"}
+          active={addActive("snippets")}
+          destinition={AppRoutes.SNIPPET}
+          text={t("post_snipp")}
           icon={<SnippetFolderIcon></SnippetFolderIcon>}
         ></SideBarItem>
         <SideBarItem
-          text={"My snippets"}
+          active={addActive("mySnippets")}
+          destinition={AppRoutes.MY_SNIPPETS}
+          text={t("my_snipp")}
           icon={<SnippetFolderIcon></SnippetFolderIcon>}
         ></SideBarItem>
         <SideBarItem
-          text={"Qustions"}
+          active={addActive("questions")}
+          destinition={AppRoutes.QUESTIONS}
+          text={t("questions")}
           icon={<PsychologyAltIcon></PsychologyAltIcon>}
         ></SideBarItem>
         <SideBarItem
-          text={"Users"}
+          active={addActive("users")}
+          text={t("users")}
+          destinition={AppRoutes.USERS}
           icon={<GroupIcon></GroupIcon>}
         ></SideBarItem>
       </div>
