@@ -18,14 +18,14 @@ interface UserData {
 }
 
 interface UserStatistic {
-  rating?: number;
-  snippetsCount?: number;
-  commentCount?: number;
-  likesCount?: number;
-  dislikesCount?: number;
-  questionsCount?: number;
-  correctAnswerCount?: number;
-  regularAnswerCount?: number;
+  rating: number;
+  snippetsCount: number;
+  commentCount: number;
+  likesCount: number;
+  dislikesCount: number;
+  questionsCount: number;
+  correctAnswerCount: number;
+  regularAnswerCount: number;
 }
 
 const UserInfoCard: FC<UserInfoProps> = ({ id, refresh }) => {
@@ -34,7 +34,16 @@ const UserInfoCard: FC<UserInfoProps> = ({ id, refresh }) => {
   const [userData, setUserData] = useState<UserData>(
     JSON.parse(sessionStorage.getItem("user") || "{}")
   );
-  const [statistic, setStatistic] = useState<UserStatistic>({});
+  const [statistic, setStatistic] = useState<UserStatistic>({
+    rating: 0,
+    snippetsCount: 0,
+    commentCount: 0,
+    likesCount: 0,
+    dislikesCount: 0,
+    questionsCount: 0,
+    correctAnswerCount: 0,
+    regularAnswerCount: 0,
+  });
 
   const navigate = useNavigate();
 
@@ -46,10 +55,23 @@ const UserInfoCard: FC<UserInfoProps> = ({ id, refresh }) => {
         if (!userId) return;
 
         const response = await api.get(`/users/${userId}/statistic`);
+
         const stat = response.data?.data?.statistic;
         const userInfo = response.data?.data;
 
-        if (stat) setStatistic(stat);
+        if (stat) {
+          setStatistic({
+            rating: stat.rating ?? 0,
+            snippetsCount: stat.snippetsCount ?? 0,
+            commentCount: stat.commentCount ?? 0,
+            likesCount: stat.likesCount ?? 0,
+            dislikesCount: stat.dislikesCount ?? 0,
+            questionsCount: stat.questionsCount ?? 0,
+            correctAnswerCount: stat.correctAnswerCount ?? 0,
+            regularAnswerCount: stat.regularAnswerCount ?? 0,
+          });
+        }
+
         if (id && userInfo) {
           setUserData({
             id: userInfo.id,
@@ -113,14 +135,14 @@ const UserInfoCard: FC<UserInfoProps> = ({ id, refresh }) => {
             </div>
           </div>
           <div>
-            <p>Rating: {statistic.rating ?? "-"}</p>
-            <p>Snippets: {statistic.snippetsCount ?? 0}</p>
-            <p>Comments: {statistic.commentCount ?? 0}</p>
-            <p>Likes: {statistic.likesCount ?? 0}</p>
-            <p>Dislikes: {statistic.dislikesCount ?? 0}</p>
-            <p>Questions: {statistic.questionsCount ?? 0}</p>
-            <p>Correct Answer: {statistic.correctAnswerCount ?? 0}</p>
-            <p>Regular Answer: {statistic.regularAnswerCount ?? 0}</p>
+          <p>Rating: {statistic.rating}</p>
+            <p>Snippets: {statistic.snippetsCount}</p>
+            <p>Comments: {statistic.commentCount}</p>
+            <p>Likes: {statistic.likesCount}</p>
+            <p>Dislikes: {statistic.dislikesCount}</p>
+            <p>Questions: {statistic.questionsCount}</p>
+            <p>Correct Answer: {statistic.correctAnswerCount}</p>
+            <p>Regular Answer: {statistic.regularAnswerCount}</p>
           </div>
 
           {error && <p style={{ color: "red" }}>{error}</p>}
