@@ -1,4 +1,4 @@
-import React, { useEffect, useState, lazy, Suspense } from "react";
+import React, { useEffect, useState, lazy, Suspense, useRef } from "react";
 import MonacoEditor from "react-monaco-editor";
 import PersonIcon from "@mui/icons-material/Person";
 import "./PostCard.css";
@@ -49,6 +49,14 @@ const PostCard: React.FC<PostCardProps> = React.memo(
     const [userMark, setUserMark] = useState<"like" | "dislike">(mark);
     const [user, setUser] = useState<any>(null);
 
+    const editorRef = useRef<any>(null);
+    const monacoRef = useRef<any>(null);
+
+    const handleEditorDidMount = (editor: any, monaco: any) => {
+      editorRef.current = editor;
+      monacoRef.current = monaco;
+    };
+
     useEffect(() => {
       const stored = sessionStorage.getItem("user");
       if (stored) {
@@ -65,6 +73,18 @@ const PostCard: React.FC<PostCardProps> = React.memo(
         setUserMark(null);
       }
     }, [mark]);
+
+    useEffect(() => {
+      return () => {
+        if (editorRef.current) {
+          const model = editorRef.current.getModel?.();
+          if (model && !model.isDisposed()) {
+            model.dispose();
+          }
+          editorRef.current.dispose?.();
+        }
+      };
+    }, []);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -154,11 +174,13 @@ const PostCard: React.FC<PostCardProps> = React.memo(
         </div>
 
         <MonacoEditor
+          key={`${id}-${language}`}
           width="100%"
           height="200px"
           language={language}
           theme="vs-light"
           value={code}
+          editorDidMount={handleEditorDidMount}
           options={{
             selectOnLineNumbers: true,
             readOnly: true,

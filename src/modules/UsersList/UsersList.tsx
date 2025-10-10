@@ -58,11 +58,8 @@ const UsersList = () => {
         <Pagination
           onNextPageClick={handleNextPageClick}
           onPrevPageClick={handlePrevPageClick}
-          disable={{
-            left: page === 1,
-            right: page === totalPages,
-          }}
-          nav={{ current: page, total: totalPages }}
+          current={page}
+          totalPages={totalPages}
         />
 
         {currentUsers.map((user) => (

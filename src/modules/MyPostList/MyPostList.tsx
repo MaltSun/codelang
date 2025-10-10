@@ -55,6 +55,7 @@ const MyPostList: React.FC<MyPostListProps> = ({
 
   useEffect(() => {
     fetchPosts(page);
+  
   }, [page, fetchPosts, refresh]);
 
   const normalizePosts = (posts: any[]) =>
@@ -85,11 +86,8 @@ const MyPostList: React.FC<MyPostListProps> = ({
       <Pagination
         onNextPageClick={handleNextPageClick}
         onPrevPageClick={handlePrevPageClick}
-        disable={{
-          left: page === 1,
-          right: page === totalPages,
-        }}
-        nav={{ current: page, total: totalPages }}
+        current={page}
+        totalPages={totalPages}
       />
       {posts.length > 0 ? (
         posts.map((post) => (

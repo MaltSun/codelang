@@ -4,36 +4,35 @@ import "./Pagination.css";
 type PaginationProps = {
   onNextPageClick: () => void;
   onPrevPageClick: () => void;
-  disable: {
-    left: boolean;
-    right: boolean;
-  };
-  nav?: {
-    current: number;
-    total: number;
-  };
+  current: number;
+  totalPages: number;
 };
 
 const Pagination = React.memo((props: PaginationProps) => {
-  const { nav = null, disable, onNextPageClick, onPrevPageClick } = props;
- 
+  const { current, totalPages, onNextPageClick, onPrevPageClick } = props;
+
+  const handleDisable = () => {
+    return current === 1 ? "next" : current === totalPages ? "prev" : null;
+  };
+
   return (
     <div className="pagination">
-      <button
-        type="button"
-        onClick={onPrevPageClick}
-        disabled={disable.left}
-      >
-        {"<"}
-      </button>
-      {nav && <span>{nav.current}</span>}
-      <button
-        type="button"
-        onClick={ onNextPageClick}
-        disabled={disable.right}
-      >
-        {">"}
-      </button>
+      {handleDisable() === "next" ? (
+        <button onClick={onPrevPageClick} disabled>
+          {"<"}
+        </button>
+      ) : (
+        <button onClick={onPrevPageClick}>{"<"}</button>
+      )}
+
+      {current && <span>{current}</span>}
+      {handleDisable() === "prev" ? (
+        <button onClick={onNextPageClick} disabled>
+          {">"}
+        </button>
+      ) : (
+        <button onClick={onNextPageClick}>{">"}</button>
+      )}
     </div>
   );
 });

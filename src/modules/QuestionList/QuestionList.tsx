@@ -78,11 +78,8 @@ const QuestionList: React.FC<QuestionListProps> = ({ refresh, onEdit }) => {
       <Pagination
         onNextPageClick={handleNextPageClick}
         onPrevPageClick={handlePrevPageClick}
-        disable={{
-          left: page === 1,
-          right: page === totalPages,
-        }}
-        nav={{ current: page, total: totalPages }}
+        current={page}
+        totalPages={totalPages}
       />
       {questions.length > 0 ? (
         questions.map((question) => (
