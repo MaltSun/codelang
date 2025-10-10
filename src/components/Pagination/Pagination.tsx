@@ -16,19 +16,12 @@ type PaginationProps = {
 
 const Pagination = React.memo((props: PaginationProps) => {
   const { nav = null, disable, onNextPageClick, onPrevPageClick } = props;
-
-  const handleNextPageClick = () => {
-    onNextPageClick();
-  };
-  const handlePrevPageClick = () => {
-    onPrevPageClick();
-  };
-
+ 
   return (
     <div className="pagination">
       <button
         type="button"
-        onClick={handlePrevPageClick}
+        onClick={onPrevPageClick}
         disabled={disable.left}
       >
         {"<"}
@@ -36,7 +29,7 @@ const Pagination = React.memo((props: PaginationProps) => {
       {nav && <span>{nav.current}</span>}
       <button
         type="button"
-        onClick={handleNextPageClick}
+        onClick={ onNextPageClick}
         disabled={disable.right}
       >
         {">"}

@@ -69,33 +69,66 @@ const PostCard: React.FC<PostCardProps> = React.memo(
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const handleMark = async (newMark: "like" | "dislike") => {
+    const handleUserCheck = (): boolean => {
       if (!user) {
         alert("You need to login to like or dislike posts.");
         navigate("/login");
-        return;
+        return false;
       }
+      return true;
+    };
+
+    const handleLike = async () => {
+      if (!handleUserCheck()) return;
 
       try {
-        if (userMark === newMark) {
+        if (userMark === "like") {
           setUserMark(null);
-          if (newMark === "like") setLikes((l) => (l > 0 ? l - 1 : 0));
-          else setDislikes((d) => (d > 0 ? d - 1 : 0));
+          setLikes((l) => (l > 0 ? l - 1 : 0));
         } else {
-          if (newMark === "like") {
-            setLikes((l) => l + 1);
-            if (userMark === "dislike") setDislikes((d) => (d > 0 ? d - 1 : 0));
-          } else {
-            setDislikes((d) => d + 1);
-            if (userMark === "like") setLikes((l) => (l > 0 ? l - 1 : 0));
-          }
-          setUserMark(newMark);
+          setLikes((l) => l + 1);
+          if (userMark === "dislike") setDislikes((d) => (d > 0 ? d - 1 : 0));
+          setUserMark("like");
         }
 
-        await api.post(`/snippets/${id}/mark`, { mark: newMark });
+        await api.post(`/snippets/${id}/mark`, { mark: "like" });
+      } catch (err) {
+        console.error("Failed to like snippet:", err);
+      }
+    };
+
+    const handleDislike = async () => {
+      if (!handleUserCheck()) return;
+
+      try {
+        if (userMark === "dislike") {
+          setUserMark(null);
+          setDislikes((d) => (d > 0 ? d - 1 : 0));
+        } else {
+          setDislikes((d) => d + 1);
+          if (userMark === "like") setLikes((l) => (l > 0 ? l - 1 : 0));
+
+          setUserMark("dislike");
+        }
+
+        await api.post(`/snippets/${id}/mark`, { mark: "dislike" });
       } catch (err) {
         console.error("Failed to mark snippet:", err);
       }
+    };
+
+    const handleNavigate = () => {
+      navigate("/post", {
+        state: {
+          id,
+          username,
+          language,
+          code,
+          likesNumber: likes,
+          dislikesNumber: dislikes,
+          commentsNumber,
+        },
+      });
     };
 
     return (
@@ -139,7 +172,7 @@ const PostCard: React.FC<PostCardProps> = React.memo(
             <span>
               <button
                 disabled={!user}
-                onClick={() => handleMark("like")}
+                onClick={handleLike}
                 className={!user ? "disabledBtn" : ""}
                 title={!user ? "Login to like" : ""}
               >
@@ -161,7 +194,7 @@ const PostCard: React.FC<PostCardProps> = React.memo(
             <span>
               <button
                 disabled={!user}
-                onClick={() => handleMark("dislike")}
+                onClick={handleDislike}
                 className={!user ? "disabledBtn" : ""}
                 title={!user ? "Login to dislike" : ""}
               >
@@ -187,21 +220,7 @@ const PostCard: React.FC<PostCardProps> = React.memo(
                 <BorderColorOutlinedIcon sx={{ color: red[400] }} />
               </button>
             )}
-            <button
-              onClick={() =>
-                navigate("/post", {
-                  state: {
-                    id,
-                    username,
-                    language,
-                    code,
-                    likesNumber: likes,
-                    dislikesNumber: dislikes,
-                    commentsNumber,
-                  },
-                })
-              }
-            >
+            <button onClick={handleNavigate}>
               <ChatBubbleOutlineIcon sx={{ color: red[400] }} />
               {commentsNumber}
             </button>

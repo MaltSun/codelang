@@ -6,19 +6,24 @@ interface SideBarItemProps {
   text: string;
   icon: React.ReactNode;
   active?: boolean;
-  destinition?: string
+  destinition?: string;
 }
 
 const SideBarItem: React.FC<SideBarItemProps> = ({
   text,
   icon,
   active = false,
-  destinition
+  destinition,
 }) => {
   const className = `sideBarItem ${active ? "active" : ""}`.trim();
   const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate(destinition);
+  };
+
   return (
-    <button onClick={() => navigate(destinition)} className={className}>
+    <button onClick={handleNavigate} className={className}>
       {icon}
       <span>{text}</span>
     </button>
